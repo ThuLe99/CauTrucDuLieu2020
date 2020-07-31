@@ -15,6 +15,19 @@ bool TimKiemMaLop(LISTLOP &dsl,string &str)
 	}
 	return false;
 }
+bool TimKiemMaLopNK(LISTLOP &dsl,string &strnk)
+{
+	// tim kiem theo ma lop
+	for(int i = 0 ;i<dsl.soluonglop;i++)
+	{
+		if(strcmp((char*)dsl.dslop[i]->nienKhoa.c_str(),(char*)strnk.c_str())==0) //strcmp so sanh 2 char *
+		
+		{
+			return true;
+		}
+	}
+	return false;
+}
 bool EmptyLop(LISTLOP &dsl)
 {
 	// kiem tra lop co rong hay ko
@@ -53,6 +66,13 @@ void Nhap_1_lop(LISTLOP &dsl,LOP &l)
 	l.tenLOP.clear();
 	XuLiNhap(l.tenLOP);
 	Chuan_Hoa_Chuoi(l.tenLOP);
+	
+	gotoxy(x,++xuongdong);
+	cout<<" Nhap nien khoa: ";
+	fflush(stdin);
+	l.nienKhoa.clear();
+	XuLiNhapNienKhoa(l.nienKhoa);
+	
 	l.lsv = new LISTSINHVIEN ;//cap phat vung nho cho con tro danh sach sinh vien
 	KhoiTaoListSV(*l.lsv);// khoi tao danh sach sinh vien
 }
@@ -70,7 +90,8 @@ void Nhap_List_Lop(LISTLOP &dsl)
 
 void Xuat_1_LOP(LOP &l)
 {
-	cout<<setw(5)<<right<<" "<<setw(45)<<left<<l.maLOP<<char(179)<<setw(5)<<" "<<setw(45)<<left<<l.tenLOP;
+	cout<<setw(5)<<right<<" "<<setw(30)<<left<<l.maLOP<<char(179)<<setw(5)<<" "<<setw(40)<<left<<l.tenLOP<<char(179)<<setw(5)<<" "<<setw(30)<<left<<l.nienKhoa;
+	//cout<<setw(5)<<right<<" "<<setw(30)<<left<<l.maLOP<<char(179)<<setw(5)<<" "<<setw(40)<<left<<"Ten Lop"<<char(179)<<setw(5)<<" "<<setw(30)<<left<<"NK";
 }
 void Xuat_ListLop(LISTLOP &dsl)
 {
@@ -78,7 +99,7 @@ void Xuat_ListLop(LISTLOP &dsl)
 	cout<<"Danh Sach Lop Hoc";
 	VeKhungCH(x,2,100,2,true);
 	gotoxy(x,5);
-	cout<<setw(5)<<right<<" "<<setw(45)<<left<<"Ma lop"<<char(179)<<setw(5)<<" "<<setw(45)<<left<<"Ten Lop";
+	cout<<setw(5)<<right<<" "<<setw(30)<<left<<"Ma lop"<<char(179)<<setw(5)<<" "<<setw(40)<<left<<"Ten Lop"<<char(179)<<setw(5)<<" "<<setw(30)<<left<<"NK";
 	VeKhungCH(x,2,100,4,true); 
 	int k = 6;
 	xuongdong = 6;
@@ -92,11 +113,42 @@ void Xuat_ListLop(LISTLOP &dsl)
 	VeKhungCH(x,2,100,k,true);
 	xuongdong=xuongdong+2;
 }
-
+void Xuat_ListLop_nk(LISTLOP &dsl,string nk)
+{
+	int k = 6;
+	xuongdong = 6;
+	int flat=-1;
+	for(int i=0;i<dsl.soluonglop;i++)
+	{
+		if(strcmp((char*)dsl.dslop[i]->nienKhoa.c_str(),(char*)nk.c_str())==0){
+		
+			xuongdong=xuongdong+2;
+			gotoxy(x,xuongdong);
+			Xuat_1_LOP(*dsl.dslop[i]);
+			k=k+2;
+			flat=1;
+		}		
+	}
+	gotoxy(x+40,3);
+	cout<<"Danh Sach Lop Hoc";
+	VeKhungCH(x,2,100,2,true);
+	gotoxy(x,5);
+	cout<<setw(5)<<right<<" "<<setw(30)<<left<<"Ma lop"<<char(179)<<setw(5)<<" "<<setw(40)<<left<<"Ten Lop"<<char(179)<<setw(5)<<" "<<setw(30)<<left<<"NK";
+	VeKhungCH(x,2,100,4,true); 	
+	VeKhungCH(x,2,100,k,true);
+	xuongdong=xuongdong+2;
+	if(flat==-1){
+			xuongdong=xuongdong+2;
+			gotoxy(x,xuongdong);
+			cout<<" Khong co nien khoa can tim!";
+		}	
+	
+}
 void Save_Lop(ofstream &fo, LOP &l)
 {
 	fo<<l.maLOP<<"|";
-	fo<<l.tenLOP<<endl;
+	fo<<l.tenLOP<<"|";
+	fo<<l.nienKhoa<<endl;
 }
 void Save_List_Lop(LISTLOP &dsl)
 {
@@ -123,8 +175,11 @@ void Read_Lop(ifstream &fi,LISTLOP &dsl, LOP &l)
 	l.maLOP = strmalop;
 	Xoa_KT_Thua_O_giua(l.maLOP);
 	Xoa_KT_Thua_O_Dau_Cuoi(l.maLOP);
-	getline(fi,l.tenLOP);	
+	getline(fi,l.tenLOP,'|');	
 	Chuan_Hoa_Chuoi(l.tenLOP);
+	
+	getline(fi,l.nienKhoa);
+	
 	l.lsv = new LISTSINHVIEN ;//cap phat vung nho cho con tro danh sach sinh vien
 	KhoiTaoListSV(*l.lsv);// khoi tao danh sach sinh vien 
 }
@@ -152,7 +207,7 @@ void Read_ListLop(LISTLOP &dsl)
 //save danh sach sinh vien va diem cua tung sinh vien theo tung lop
 void Save_Lop_SV(ofstream &fo, LOP &l)
 {
-	fo<<l.maLOP<<"|"<<l.tenLOP<<endl;
+	fo<<l.maLOP<<"|"<<l.tenLOP<<"|"<<l.nienKhoa<<endl;
 	Save_List_Sv(fo,*l.lsv);
 	fo<<endl;
 }
@@ -177,8 +232,10 @@ void Read_Lop_SV(ifstream &fi,LISTLOP &dsl, LOP &l)
 	l.maLOP = strmalop;
 	Xoa_KT_Thua_O_giua(l.maLOP);
 	Xoa_KT_Thua_O_Dau_Cuoi(l.maLOP);
-	getline(fi,l.tenLOP);	
+	getline(fi,l.tenLOP,'|');	
 	Chuan_Hoa_Chuoi(l.tenLOP);
+	
+	getline(fi,l.nienKhoa);
 	l.lsv = new LISTSINHVIEN;// cap phat vung nho cho con tro danh sach sinh vien
 	Read_List_Sv(fi,*l.lsv);// doc danh sach sinh vien cua 1 lop
 }
@@ -227,7 +284,7 @@ void Them_Lop(LISTLOP &dsl,LOP &lct)
  	int i;
 	int vtd = 0;
 	dsl.dslop[dsl.soluonglop]=new LOP;
-	for(i=dsl.soluonglop-1;i>vtd;i--)
+	for(i=dsl.soluonglop-1;i>=vtd;i--)
 	{
 		dsl.dslop[i+1]=dsl.dslop[i];
 	}
@@ -235,6 +292,7 @@ void Them_Lop(LISTLOP &dsl,LOP &lct)
 	*dsl.dslop[vtd]=lct;
 	dsl.soluonglop++;
 }
+
 
 void Hieu_Chinh_DSLop(LISTLOP &dsl, string &mactt)
 {
@@ -259,6 +317,7 @@ void Hieu_Chinh_DSLop(LISTLOP &dsl, string &mactt)
 				Nhap_1_lop(dsl,*lctt);
 				dsl.dslop[i]->maLOP=lctt->maLOP;
 				dsl.dslop[i]->tenLOP=lctt->tenLOP;
+				dsl.dslop[i]->nienKhoa=lctt->nienKhoa;
 			}
 		}
 	}
@@ -303,15 +362,15 @@ void QuanLiSV_LOP(LISTLOP &dsl)
 {
 	// nhap vao ma lop de tim kiem troong danh sach lop 
 	string strmalop;
-	string tenlop;
+	string malop;
 	gotoxy(x,++xuongdong);
-	tenlop.clear();
-	cout<<"Nhap vao ten lop  : ";
-	XuLiNhap(tenlop);
+	malop.clear();
+	cout<<"Nhap vao ma lop  : ";
+	XuLiNhap(malop);
 	int flag=0;
 	for(int i = 0 ;i<dsl.soluonglop;i++)
 	{
-		if(stricmp(tenlop.c_str(),dsl.dslop[i]->tenLOP.c_str())==0)
+		if(stricmp(malop.c_str(),dsl.dslop[i]->maLOP.c_str())==0)
 		{
 			//sau khi tim dc ma lop trung voi ma ma nguoi dung nhap vao
 			//vao menu sinh vien de thao tac voi danh sach sinh vien tren lop do 
@@ -443,7 +502,12 @@ void menuLOP(LISTLOP &dsl,LOP &l)
 								system("pause");
 								break;
 							}
-							Xuat_ListLop(dsl);
+							//Xuat_ListLop(dsl);
+							string nk;
+							gotoxy(x,xuongdong);
+							cout<<" Nhap Nien khoa: ";
+							getline(cin,nk);
+							Xuat_ListLop_nk(dsl,nk);
 							gotoxy(x,++xuongdong);
 							system("pause");
 						}

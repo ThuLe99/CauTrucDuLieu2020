@@ -281,6 +281,39 @@ void XuLiNhap(string &x)
 		}
 	}
 }
+void XuLiNhapNienKhoa(string &x)
+{	
+	while (true)
+	{
+		char c = getch();
+		if (((c >= 48 && c <= 57) || (c == 45)&&x.length()<9))
+		{
+			x.insert(x.begin() + x.length(), c);
+			cout << c;
+		}
+		else if (c == 8 && x.length() > 0)
+		{
+			x.erase(x.begin() + x.length() - 1);
+			cout << "\b";// lui con tro ve mot don vi
+			cout << " ";
+			cout << "\b";
+		}
+		else if(c==32)
+		{
+			x.insert(x.begin() + x.length(), c);
+			cout << c;
+		}
+//		else if (c == 27)
+//		{
+//			x.clear();
+//			return;
+//		}
+		else if (c == 13 && x.length() > 0)// n?u là phím enter
+		{
+			return;
+		}
+	}
+}
 void NhapSoKoChu(string &x)
 {
 	while(true)

@@ -21,6 +21,8 @@ struct listlop // dsl.dslop[i]->lsv
 
 //sua theo cau truc mang con tro
 typedef struct listlop LISTLOP;
+void Xuat_ListLop_nk(LISTLOP &dsl,string nk);
+
 bool TimKiemMaLop(LISTLOP &dsl,string &strmalop);
 bool EmptyLop(LISTLOP &dsl);
 void Nhap_1_lop(LISTLOP &dsl,LOP &l);

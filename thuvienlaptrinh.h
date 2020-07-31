@@ -13,6 +13,7 @@
 #include <conio.h>
 #include <stdio.h>
 using namespace std;
+void XuLiNhapNienKhoa(string &x);
 void resizeConsole(int width, int height);
 void textcolor(int x);
 void gotoxy(int x,int y);

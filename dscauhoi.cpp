@@ -2,6 +2,11 @@
 const int x = 60;
 const int y =22;
 int xd;
+
+int Empty(TREE root){
+	return(root==NULL? true: false);
+}
+
 void KhoiTaoCay(TREE &t)
 {
 	t=NULL;// cay rong
@@ -40,537 +45,218 @@ bool KT_MaCH_DSMH(listMH &lmh, string mamh)
 	}
 	return false;
 }
-//void nhapCauHoi(CAUHOI &ch, listMH &lmh)
-//{
-//	 gotoxy(x,++xd);
-//	 fflush(stdin);
-//	 string temp;
-//	do
-//	{
-//		temp.clear();
-//		gotoxy(x,++xd);
-//		cout<<"Nhap id";
-//		XuLiNhapMa(temp);
-//		cin>>ch.id;
-//		if(KT_MaCH_DSMH(lmh,temp)==false)
-//		{
-//			cout<<""
-//		}
-//	}
-//}
 
+void Nhap_Cau_Hoi(CAUHOI &ch, listMH &lmh)
+{
+	gotoxy(x,++xd);	
+	fflush(stdin);
+	string temp;
+	do
+	{
+		temp.clear();
+		gotoxy(x,++xd);
+		cout<<" Nhap vao ma mon hoc :";
+		XuLiNhapMa(temp);
+		if(KT_MaCH_DSMH(lmh,temp)==false)
+		{
+			gotoxy(x,++xd);
+			cout<<" Nhap lai ma mon hoc!!!Khong co trong danh sach mon hoc ";
+		}
+	}while(KT_MaCH_DSMH(lmh,temp)==false);
+	Xoa_KT_Thua_Giua_Ky_Tu(temp);
+	Xoa_KT_Thua_O_Dau_Cuoi(temp);
+	strcpy(ch.MAMH,(char*)temp.c_str());
+	do
+	{
+		gotoxy(x,++xd);
+		cout<<" Nhap vao noi dung : ";
+		getline(cin,ch.noidung);
+		if(ch.noidung.length()<=0)
+		{
+			gotoxy(x,++xd);
+			cout<<" Nhap lai cau hoi thi ";
+		}
+	}while(ch.noidung.length()<=0);
+	Xoa_KT_Thua_Giua_Ky_Tu(ch.noidung);
+	Xoa_KT_Thua_O_Dau_Cuoi(ch.noidung);
+	do
+	{
+		gotoxy(x,++xd);
+		cout<<" Nhap vao dap an a :";
+		getline(cin,ch.A);
+		if(ch.A.length()<=0)
+		{
+			gotoxy(x,++xd);
+			cout<<" Nhap lai dap an ";
+		}
+	}while(ch.A.length()<=0);
+	Xoa_KT_Thua_Giua_Ky_Tu(ch.A);
+	Xoa_KT_Thua_O_Dau_Cuoi(ch.A);
+	do
+	{
+		gotoxy(x,++xd);
+		cout<<" Nhap vao dap an b :";
+		getline(cin,ch.B);
+		if(ch.B.length()<=0)
+		{
+			gotoxy(x,++xd);
+			cout<<" Nhap lai dap an ";
+		}
+	}while(ch.B.length()<=0);
+	Xoa_KT_Thua_Giua_Ky_Tu(ch.B);
+	Xoa_KT_Thua_O_Dau_Cuoi(ch.B);
+	do
+	{
+		gotoxy(x,++xd);
+		cout<<" Nhap vao dap an c : ";
+		getline(cin,ch.C);
+		if(ch.C.length()<=0)
+		{
+			gotoxy(x,++xd);
+			cout<<" Nhap lai dap an ";
+		}
+	}while(ch.C.length()<=0);
+	Xoa_KT_Thua_Giua_Ky_Tu(ch.C);
+	Xoa_KT_Thua_O_Dau_Cuoi(ch.C);
+	do
+	{
+		gotoxy(x,++xd);
+		cout<<" Nhap vao dap an d :";
+		getline(cin,ch.D);
+		if(ch.D.length()<=0)
+		{
+			gotoxy(x,++xd);
+			cout<<" Nhap lai dap an ";
+		}
+	}while(ch.D.length()<=0);
+	Xoa_KT_Thua_Giua_Ky_Tu(ch.D);
+	Xoa_KT_Thua_O_Dau_Cuoi(ch.D);
+	string temp1;
+	gotoxy(x,++xd);
+	cout<<"Nhap vao dap an :(A B C D)";
+	while(true)// nguoi dung nhap 4 dap A B C D
+	{
+		if(kbhit())
+		{
+			ch.dapan = getch();
+			if(ch.dapan==65||ch.dapan==97)
+			{
+				ch.dapan=char(65);
+			}
+			if(ch.dapan==66||ch.dapan==98)
+			{
+				ch.dapan=char(66);
+			}
+			if(ch.dapan==67||ch.dapan==99)
+			{
+				ch.dapan=char(67);
+			}
+			if(ch.dapan==68||ch.dapan==100)
+			{
+				ch.dapan=char(68);
+			}
+			break;
+		}
+	}
 
-//void Nhap_Cau_Hoi(CAUHOI &ch, STACKID &stk,listMH &lmh)
-//{
-//	gotoxy(x,++xd);
-//	// lay tung dinh id trong danh sach id rang vao cho id cau hoi 
-//	ch.id=stk.listid[stk.top];
-//	stk.top--;	
-//	fflush(stdin);
-//	string temp;
-//	do
-//	{
-//		temp.clear();
-//		gotoxy(x,++xd);
-//		cout<<" Nhap vao ma mon hoc :";
-//		XuLiNhapMa(temp);
-//		if(KT_MaCH_DSMH(lmh,temp)==false)
-//		{
-//			gotoxy(x,++xd);
-//			cout<<" Nhap lai ma mon hoc!!!Khong co trong danh sach mon hoc ";
-//		}
-//	}while(KT_MaCH_DSMH(lmh,temp)==false);
-//	Xoa_KT_Thua_Giua_Ky_Tu(temp);
-//	Xoa_KT_Thua_O_Dau_Cuoi(temp);
-//	strcpy(ch.MAMH,(char*)temp.c_str());
-//	do
-//	{
-//		gotoxy(x,++xd);
-//		cout<<" Nhap vao noi dung : ";
-//		getline(cin,ch.noidung);
-//		if(ch.noidung.length()<=0)
-//		{
-//			gotoxy(x,++xd);
-//			cout<<" Nhap lai cau hoi thi ";
-//		}
-//	}while(ch.noidung.length()<=0);
-//	Xoa_KT_Thua_Giua_Ky_Tu(ch.noidung);
-//	Xoa_KT_Thua_O_Dau_Cuoi(ch.noidung);
-//	do
-//	{
-//		gotoxy(x,++xd);
-//		cout<<" Nhap vao dap an a :";
-//		getline(cin,ch.A);
-//		if(ch.A.length()<=0)
-//		{
-//			gotoxy(x,++xd);
-//			cout<<" Nhap lai dap an ";
-//		}
-//	}while(ch.A.length()<=0);
-//	Xoa_KT_Thua_Giua_Ky_Tu(ch.A);
-//	Xoa_KT_Thua_O_Dau_Cuoi(ch.A);
-//	do
-//	{
-//		gotoxy(x,++xd);
-//		cout<<" Nhap vao dap an b :";
-//		getline(cin,ch.B);
-//		if(ch.B.length()<=0)
-//		{
-//			gotoxy(x,++xd);
-//			cout<<" Nhap lai dap an ";
-//		}
-//	}while(ch.B.length()<=0);
-//	Xoa_KT_Thua_Giua_Ky_Tu(ch.B);
-//	Xoa_KT_Thua_O_Dau_Cuoi(ch.B);
-//	do
-//	{
-//		gotoxy(x,++xd);
-//		cout<<" Nhap vao dap an c : ";
-//		getline(cin,ch.C);
-//		if(ch.C.length()<=0)
-//		{
-//			gotoxy(x,++xd);
-//			cout<<" Nhap lai dap an ";
-//		}
-//	}while(ch.C.length()<=0);
-//	Xoa_KT_Thua_Giua_Ky_Tu(ch.C);
-//	Xoa_KT_Thua_O_Dau_Cuoi(ch.C);
-//	do
-//	{
-//		gotoxy(x,++xd);
-//		cout<<" Nhap vao dap an d :";
-//		getline(cin,ch.D);
-//		if(ch.D.length()<=0)
-//		{
-//			gotoxy(x,++xd);
-//			cout<<" Nhap lai dap an ";
-//		}
-//	}while(ch.D.length()<=0);
-//	Xoa_KT_Thua_Giua_Ky_Tu(ch.D);
-//	Xoa_KT_Thua_O_Dau_Cuoi(ch.D);
-//	string temp1;
-//	gotoxy(x,++xd);
-//	cout<<"Nhap vao dap an :(A B C D)";
-//	while(true)// nguoi dung nhap 4 dap A B C D
-//	{
-//		if(kbhit())
-//		{
-//			ch.dapan = getch();
-//			if(ch.dapan==65||ch.dapan==97)
-//			{
-//				ch.dapan=char(65);
-//			}
-//			if(ch.dapan==66||ch.dapan==98)
-//			{
-//				ch.dapan=char(66);
-//			}
-//			if(ch.dapan==67||ch.dapan==99)
-//			{
-//				ch.dapan=char(67);
-//			}
-//			if(ch.dapan==68||ch.dapan==100)
-//			{
-//				ch.dapan=char(68);
-//			}
-//			break;
-//		}
-//	}
-//
-//
+void Xuat_Cau_Hoi(CAUHOI &ch)
+{
+	gotoxy(x+32,++xd);
+	cout<<ch.id<<"."<<ch.MAMH<<"."<<ch.noidung;
+	gotoxy(x+25,++xd);
+	cout<<ch.A;
+	gotoxy(x+25,++xd);
+	cout<<ch.B;
+	gotoxy(x+25,++xd);
+	cout<<ch.C;
+	gotoxy(x+25,++xd);
+	cout<<ch.D;
+	gotoxy(x+25,++xd);
+	cout<<"Dap an : "<<ch.dapan;
+}
+void Insert_Node(TREE &t, CAUHOI &ch)
+{
+	if(t==NULL)
+	{
+		t= new NODE;
+		t->data=ch;
+		t->pLEFT=NULL;
+		t->pRIGHT=NULL;
+	}
+	else
+	if(ch.id<t->data.id)
+	Insert_Node(t->pLEFT,ch);
+	else if(ch.id>t->data.id)
+	Insert_Node(t->pRIGHT,ch);
+}
 
+void remove_case_3(TREE &r)
+{
+	TREE rp;
+	if(r->pLEFT!=NULL)
+	remove_case_3(r->pLEFT);
+	else
+	{
+		rp->data=r->data;
+		rp=r;
+		r=r->pRIGHT;
+	}
+}
 
-//void Khoitaoidngaunhien(STACKID &stkid)
-//{
-//	int n, b;
-//	n=10000;
-//	int *a = new int[n];// cap phat dong mot mang so nguyen chua n so 
-//	stkid.listid = new int[n];// cap phat dong cho danh sach id
-//	srand(time(NULL));
-//	for (int i = 1; i <= n; i++)
-//	{
-//		a[i] = i;
-//	}
-//	// sinh tung so ngau nhien r bo vao trong stack id 
-//	while (n>0)
-//	{
-//		b = 1 + rand()%n;
-//		stkid.listid[++stkid.top]=a[b];
-//		a[b] = a[n];
-//		n--;
-//	}
-//	delete[] a;
-//}
-//bool KT_MaCH_DSMH(listMH &lmh, string mamh)
-//{
-//	for(int i = 0 ; i<lmh.soluong;i++)
-//	{
-//		if(stricmp(lmh.dsmh[i]->MAMH,mamh.c_str())==0)
-//		{
-//			return true;
-//		}
-//	}
-//	return false;
-//}
-//void Nhap_Cau_Hoi(CAUHOI &ch, STACKID &stk,listMH &lmh)
-//{
-//	gotoxy(x,++xd);
-//	// lay tung dinh id trong danh sach id rang vao cho id cau hoi 
-//	ch.id=stk.listid[stk.top];
-//	stk.top--;	
-//	fflush(stdin);
-//	string temp;
-//	do
-//	{
-//		temp.clear();
-//		gotoxy(x,++xd);
-//		cout<<" Nhap vao ma mon hoc :";
-//		XuLiNhapMa(temp);
-//		if(KT_MaCH_DSMH(lmh,temp)==false)
-//		{
-//			gotoxy(x,++xd);
-//			cout<<" Nhap lai ma mon hoc!!!Khong co trong danh sach mon hoc ";
-//		}
-//	}while(KT_MaCH_DSMH(lmh,temp)==false);
-//	Xoa_KT_Thua_Giua_Ky_Tu(temp);
-//	Xoa_KT_Thua_O_Dau_Cuoi(temp);
-//	strcpy(ch.MAMH,(char*)temp.c_str());
-//	do
-//	{
-//		gotoxy(x,++xd);
-//		cout<<" Nhap vao noi dung : ";
-//		getline(cin,ch.noidung);
-//		if(ch.noidung.length()<=0)
-//		{
-//			gotoxy(x,++xd);
-//			cout<<" Nhap lai cau hoi thi ";
-//		}
-//	}while(ch.noidung.length()<=0);
-//	Xoa_KT_Thua_Giua_Ky_Tu(ch.noidung);
-//	Xoa_KT_Thua_O_Dau_Cuoi(ch.noidung);
-//	do
-//	{
-//		gotoxy(x,++xd);
-//		cout<<" Nhap vao dap an a :";
-//		getline(cin,ch.A);
-//		if(ch.A.length()<=0)
-//		{
-//			gotoxy(x,++xd);
-//			cout<<" Nhap lai dap an ";
-//		}
-//	}while(ch.A.length()<=0);
-//	Xoa_KT_Thua_Giua_Ky_Tu(ch.A);
-//	Xoa_KT_Thua_O_Dau_Cuoi(ch.A);
-//	do
-//	{
-//		gotoxy(x,++xd);
-//		cout<<" Nhap vao dap an b :";
-//		getline(cin,ch.B);
-//		if(ch.B.length()<=0)
-//		{
-//			gotoxy(x,++xd);
-//			cout<<" Nhap lai dap an ";
-//		}
-//	}while(ch.B.length()<=0);
-//	Xoa_KT_Thua_Giua_Ky_Tu(ch.B);
-//	Xoa_KT_Thua_O_Dau_Cuoi(ch.B);
-//	do
-//	{
-//		gotoxy(x,++xd);
-//		cout<<" Nhap vao dap an c : ";
-//		getline(cin,ch.C);
-//		if(ch.C.length()<=0)
-//		{
-//			gotoxy(x,++xd);
-//			cout<<" Nhap lai dap an ";
-//		}
-//	}while(ch.C.length()<=0);
-//	Xoa_KT_Thua_Giua_Ky_Tu(ch.C);
-//	Xoa_KT_Thua_O_Dau_Cuoi(ch.C);
-//	do
-//	{
-//		gotoxy(x,++xd);
-//		cout<<" Nhap vao dap an d :";
-//		getline(cin,ch.D);
-//		if(ch.D.length()<=0)
-//		{
-//			gotoxy(x,++xd);
-//			cout<<" Nhap lai dap an ";
-//		}
-//	}while(ch.D.length()<=0);
-//	Xoa_KT_Thua_Giua_Ky_Tu(ch.D);
-//	Xoa_KT_Thua_O_Dau_Cuoi(ch.D);
-//	string temp1;
-//	gotoxy(x,++xd);
-//	cout<<"Nhap vao dap an :(A B C D)";
-//	while(true)// nguoi dung nhap 4 dap A B C D
-//	{
-//		if(kbhit())
-//		{
-//			ch.dapan = getch();
-//			if(ch.dapan==65||ch.dapan==97)
-//			{
-//				ch.dapan=char(65);
-//			}
-//			if(ch.dapan==66||ch.dapan==98)
-//			{
-//				ch.dapan=char(66);
-//			}
-//			if(ch.dapan==67||ch.dapan==99)
-//			{
-//				ch.dapan=char(67);
-//			}
-//			if(ch.dapan==68||ch.dapan==100)
-//			{
-//				ch.dapan=char(68);
-//			}
-//			break;
-//		}
-//	}
-//}
-//void Xuat_Cau_Hoi(CAUHOI &ch)
-//{
-//	gotoxy(x+32,++xd);
-//	cout<<ch.id<<"."<<ch.MAMH<<"."<<ch.noidung;
-//	gotoxy(x+25,++xd);
-//	cout<<ch.A;
-//	gotoxy(x+25,++xd);
-//	cout<<ch.B;
-//	gotoxy(x+25,++xd);
-//	cout<<ch.C;
-//	gotoxy(x+25,++xd);
-//	cout<<ch.D;
-//	gotoxy(x+25,++xd);
-//	cout<<"Dap an : "<<ch.dapan;
-//}
-////void Rotate_Left(TREE &t)
-////{
-////	TREE p;
-////	if(t==NULL)
-////	{
-////		cout<<"\nKhong the xoay trai vi cay bi rong";
-////	}
-////	else
-////	{
-////		p=t->pLEFT;
-////		t->pLEFT=p->pRIGHT;
-////		p->pRIGHT=t;
-////		switch(p->bf)
-////		{
-////			case 1 : t->bf = 0;p->bf=0;break;
-////			case 0 : t->bf = 1;p->bf=-1;break;
-////		}
-////		t=p;
-////	}
-////}
-////void Rotate_Right(TREE &t)
-////{
-////	TREE p;
-////	if(t==NULL)
-////	{
-////		cout<<"Khong the xoay phai vi cay bi rong";	
-////	}
-////	else
-////	{
-////		if(t->pRIGHT==NULL)
-////		{
-////			cout<<"Khong the xoay phai vi ko co cay con phai ";
-////		}
-////		else
-////		{
-////			p=t->pRIGHT;
-////			t->pRIGHT=p->pLEFT;
-////			p->pLEFT=t;
-////			switch(p->bf)
-////			{
-////				case -1 : t->bf = 0;p->bf=0;break;
-////				case 0 : t->bf = -1;p->bf=1;break;
-////			}
-////			t=p;
-////		}
-////	}
-////}
-////void Rotate_Left_Right(TREE &t)
-////{
-////	TREE p1 = t->pLEFT;
-////	TREE p2 = p1->pRIGHT;
-////	t->pLEFT = p2->pRIGHT;
-////	p2->pRIGHT=t;
-////	p1->pRIGHT=p2->pLEFT;
-////	p2->pLEFT=p1;
-////	switch(p2->bf)
-////	{
-////		case 1: t->bf = -1;p1->bf=0;break;
-////		case 0: t->bf = 0;p1->bf=0;break;
-////		case -1: t->bf = 0;p1->bf=1;break; 
-////	}
-////	p2->bf=0;
-////	t=p2;
-////}
-////void Rotate_Right_Left(TREE &t)
-////{
-////	TREE p1 = t->pRIGHT;
-////	TREE p2 = p1->pLEFT;
-////	t->pRIGHT=p2->pLEFT;
-////	p2->pLEFT=t;
-////	p1->pLEFT=p2->pRIGHT;
-////	p2->pRIGHT=p1;
-////	switch(p2->bf)
-////	{
-////		case -1 : t->bf=1;p1->bf=0;break;
-////		case 0 : t->bf = 0;p1->bf=0;break;
-////		case 1 : t->bf = 0;p1->bf=-1;break;
-////	}
-////	p2->bf=0;
-////	t=p2;
-////}
-////int balanceLeft(TREE &t)
-////{
-////	TREE p = t->pLEFT;
-////	switch(p->bf)
-////	{
-////		case 1  : Rotate_Left(t);return 2; 
-////		case 0  : Rotate_Left(t);return 1;
-////		case -1 : Rotate_Left_Right(t);return 2;
-////	}
-////}
-////int balaneceRight(TREE &t)
-////{
-////	TREE p = t->pRIGHT;
-////	switch(p->bf)
-////	{
-////		case 1  : Rotate_Right_Left(t);return 2;
-////		case 0  : Rotate_Right(t) ; return 1;
-////		case -1 : Rotate_Right(t) ; return 2;
-////	}
-////}
-////int Insert_balance(TREE &t, CAUHOI &ch)
-////{
-////	int res;
-////	if(t)
-////	{
-////		if(ch.id==t->data.id) return 0;
-////		if(ch.id<t->data.id)
-////		{
-////			res = Insert_balance(t->pLEFT,ch);
-////			if(res<2) return res;
-////			switch(t->bf)
-////			{
-////				case -1: t->bf = 0;return 1;
-////				case 0 : t->bf = 1;return 2;
-////				case 1 : balanceLeft(t);return 1;
-////			}
-////		}
-////		else
-////		{
-////			res = Insert_balance(t->pRIGHT,ch);
-////			if(res<2) return res;
-////			switch(t->bf)
-////			{
-////				case 1  : t->bf =0; return 1;
-////				case 0  : t->bf = -1 ; return 2;
-////				case -1 : balaneceRight(t);return 1;
-////			}
-////		}
-////	}
-////	t = new NODE;
-////	if(t==NULL) return -1;
-////	t->data = ch;t->bf=0;
-////	t->pLEFT=NULL;t->pRIGHT=NULL;
-////	return 2;
-////}
-////int searchStandFor(TREE &p, TREE &q)
-////{
-////	int res;
-////	if(q->pLEFT)
-////	{
-////		res = searchStandFor(p,q->pLEFT);
-////		if(res<2) return res;
-////		switch(q->bf)
-////		{
-////			case 1 : q->bf = 0; return 2;
-////			case 0 : q->bf = -1;return 1;
-////			case -1 : return balaneceRight(q);
-////		}
-////	}
-////	else
-////	{
-////		p->data=q->data;
-////		p=q;
-////		q=q->pRIGHT;
-////		return 2;
-////	}
-////}
-////int Xoa_Cau_Hoi_Thi(TREE &t,int x)
-////{
-////	int res;
-////	if(t==NULL) return 0 ;
-////	if(x<t->data.id)
-////	{
-////		res = Xoa_Cau_Hoi_Thi(t->pLEFT,x);
-////		if(res<2) return res;
-////		switch(t->bf)
-////		{
-////			case 1 : t->bf = 0;return 2;
-////			case 0 : t->bf = -1;return 1;
-////			case -1: return balaneceRight(t);
-////		}
-////	}
-////	if(x>t->data.id)
-////	{
-////		res = Xoa_Cau_Hoi_Thi(t->pRIGHT,x);
-////		if(res<2) return res;
-////		switch(t->bf)
-////		{
-////			case -1: t->bf=0;return 2;
-////			case 0 : t->bf=1;return 1;
-////			case 1 : return balanceLeft(t);
-////		}
-////	}
-////	else
-////	{
-////		TREE p = t;
-////		if(t->pLEFT==NULL)
-////		{
-////			t=t->pRIGHT;
-////			res=2;
-////		}
-////		else if(t->pRIGHT==NULL)
-////		{
-////			t=t->pLEFT;
-////			res=2;
-////		}
-////		else
-////		{
-////			res = searchStandFor(p,t->pRIGHT);
-////			if(res<2) return res;
-////			switch(t->bf)
-////			{
-////				case -1 : t->bf=0;return 2;
-////				case 0 : t->bf=1;return 1;
-////				case 1 : return balanceLeft(t);
-////			}
-////		}
-////		delete p;
-////		return res;
-////	}
-////}
-//void Hieu_Chinh_Cau_Hoi_Ma(TREE &t,string mact,string mamoi)
-//{
-//	if(t==NULL)
-//	{
-//		gotoxy(x,++xd);
-//		cout<<"danh sach cau hoi thi rong";
-//	}
-//	else
-//	{
-//		Hieu_Chinh_Cau_Hoi_Ma(t->pLEFT,mact,mamoi);
-//		Hieu_Chinh_Cau_Hoi_Ma(t->pRIGHT,mact,mamoi);
-//		if(stricmp(t->data.MAMH,(char *)mact.c_str())==0)
-//		{
-//			strcpy(t->data.MAMH,(char *)mamoi.c_str());
-//		}
-//	}
-//}
+void Xoa_Cau_Hoi_Thi(TREE &p,int x)
+{ 	TREE rp;
+	if(p==NULL)
+	{
+		cout<<" Khong tim thay cau hoi!";
+
+	}
+	else
+	{
+		if(x<p->data.id)
+		{
+			Xoa_Cau_Hoi_Thi(x,p->pLEFT);
+		}
+	
+		else if(x>p->data.id)
+		{
+			Xoa_Cau_Hoi_Thi(x,p->pRIGHT);
+		}
+		else
+		{
+			rp=p;
+			if(rp->pRIGHT==NULL)
+			{
+				p=rp->pLEFT;
+			}
+			else if(rp->pLEFT==NULL)
+			{
+				p=rp->pRIGHT;
+			}
+			else{
+				remove_case_3(rp->pRIGHT);
+			}
+			free(rp);
+
+		}
+	}
+}
+void Hieu_Chinh_Cau_Hoi_Ma(TREE &t,string mact,string mamoi)
+{
+	if(t==NULL)
+	{
+		gotoxy(x,++xd);
+		cout<<"danh sach cau hoi thi rong";
+	}
+	else
+	{
+		Hieu_Chinh_Cau_Hoi_Ma(t->pLEFT,mact,mamoi);
+		Hieu_Chinh_Cau_Hoi_Ma(t->pRIGHT,mact,mamoi);
+		if(stricmp(t->data.MAMH,(char *)mact.c_str())==0)
+		{
+			strcpy(t->data.MAMH,(char *)mamoi.c_str());
+		}
+	}
+}
 //bool Kiem_Tra_Mon_Do_Da_Co_Cau_Hoi_Chua(TREE &t,char mamh[15])
 //{
 //	int stacksize=100;

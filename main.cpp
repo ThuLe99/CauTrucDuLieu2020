@@ -1,5 +1,5 @@
 #include "dssinhvien.h"
-//#include "dsdiemthi.h"
+#include "dsdiemthi.h"
 #include "DSLop.h"
 #include "DSMonHoc.h"
 //#include "dscauhoi.h"
@@ -713,16 +713,16 @@ void menuTONG(listMH &lmh,LISTLOP &dsl)
 					}
 					else if(pointer==2)
 					{
-//						gotoxy(80,15);
-//						if(EmptyLop(dsl)==true)
-//						{
-//							cout<<"Danh sach lop trong ";
-//							system("pause");
-//							break;
-//						}
-//						Xuat_ListLop(dsl);
-//						QuanLiSV_LOP(dsl);
-//						Fill_MH_Cho_Sv_Moi(lmh,dsl);
+						gotoxy(80,15);
+						if(EmptyLop(dsl)==true)
+						{
+							cout<<"Danh sach lop trong ";
+							system("pause");
+							break;
+						}
+						Xuat_ListLop(dsl);
+						QuanLiSV_LOP(dsl);
+						Fill_MH_Cho_Sv_Moi(lmh,dsl);
 					}
 					else if(pointer==3)
 					{
