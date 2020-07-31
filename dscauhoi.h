@@ -3,6 +3,7 @@
 #include "thuvienlaptrinh.h"
 #include "DSMonHoc.h"
 //#include "DSlop.h"
+//moi thay doi tg nay lan thu 2 cho thu oc xem
 using namespace std;
 #define MAX3 10000
 /* run this program using the console pauser or add your own getch, system("pause") or input loop */
