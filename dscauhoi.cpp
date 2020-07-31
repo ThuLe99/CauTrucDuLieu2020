@@ -2,7 +2,7 @@
 const int x = 60;
 const int y =22;
 int xd;
-
+//moi thay doi tg nay
 int Empty(TREE root){
 	return(root==NULL? true: false);
 }
