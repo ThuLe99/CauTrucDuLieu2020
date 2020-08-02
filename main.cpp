@@ -2,7 +2,7 @@
 #include "dsdiemthi.h"
 #include "DSLop.h"
 #include "DSMonHoc.h"
-//#include "dscauhoi.h"
+#include "dscauhoi.h"
 //#include "chthicua1sv.h"
 #include "thuvienlaptrinh.h"
 /* run this program using the console pauser or add your own getch, system("pause") or input loop */
@@ -635,11 +635,14 @@ DWORD WINAPI ThreadProc(LPVOID param)
 //		return;
 //	}
 //}
-void menuTONG(listMH &lmh,LISTLOP &dsl)
+void menuTONG(listMH &lmh,LISTLOP &dsl,TREE &t )
 {
 	LOP l;
 	LISTSINHVIEN lsv;
 	//Read_CH_Thi_1_SV(lchdt_sv);
+	
+	IDNGAUNHIEN idngaunhien;
+	Read_List_Id(idngaunhien);
 	int soluong=8;
 	char *menutong[]={	"0.Quan Li Mon Hoc",
 						"1.Quan Li Lop ",
@@ -726,7 +729,9 @@ void menuTONG(listMH &lmh,LISTLOP &dsl)
 					}
 					else if(pointer==3)
 					{
-						menuCAUHOI(t,lmh,stk);
+						menuCAUHOI(t,lmh,idngaunhien);
+						Save_List_Id(idngaunhien);
+						system("pause");
 					}
 					else if(pointer==4)
 					{
@@ -784,6 +789,7 @@ void menuTONG(listMH &lmh,LISTLOP &dsl)
 //	{
 //		delete rdqt.chnn[i];
 //	}
+		
 }
 bool Kiem_Tra_Pass_Sv(LISTLOP &dsl,string &ma, string &pass)
 {
@@ -799,7 +805,7 @@ bool Kiem_Tra_Pass_Sv(LISTLOP &dsl,string &ma, string &pass)
 	}
 	return false;
 }
-void DangNhapGiaoVien_SinhVien(listMH &lmh,LISTLOP &dsl)
+void DangNhapGiaoVien_SinhVien(listMH &lmh,LISTLOP &dsl,TREE &t)
 {
 	while(true)
 	{
@@ -830,7 +836,7 @@ void DangNhapGiaoVien_SinhVien(listMH &lmh,LISTLOP &dsl)
 			XuLyNhap_Pass(pass);
 			if(ten==tendangnhap&&pass==password)
 			{
-				menuTONG(lmh,dsl);
+				menuTONG(lmh,dsl,t);
 				system("pause");
 				break;
 			}
@@ -863,17 +869,21 @@ int main(int argc, char** argv) {
 //	LISTCTL lctl;
 	//CAUHOINGAUNHIEN rdqt;
 	LISTLOP dsl;
+	TREE t;
 	//TREE t;
 	//STACKID stk;
 	//LISTCHDT_SV lchdt_sv;
 //	Khoitaoidngaunhien(stk);
-//	KhoiTaoCay(t);
+	KhoiTaoCay(t);
 	//Read_ListCauHoi(t,stk);
+	
 	Read_ListLop(dsl);
 	Read_ListLop_SV(dsl);
 	Read_listMH(lmh);
 	//Read_CH_Thi_1_SV(lchdt_sv);
-	DangNhapGiaoVien_SinhVien(lmh,dsl);
+	DangNhapGiaoVien_SinhVien(lmh,dsl,t);
+	
+	
 	for(int i=0;i<dsl.soluonglop;i++)
 	{
 		GiaiPhongSinhVien(*dsl.dslop[i]->lsv);
@@ -885,3 +895,9 @@ int main(int argc, char** argv) {
 	delete[] dsl.dslop;
 	return 0;
 }
+// int main(int argc, char** argv) {
+
+	
+// 	system("pause");
+// 	return 0;
+// }

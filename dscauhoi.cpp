@@ -3,7 +3,10 @@
 const int x = 60;
 const int y =22;
 int xd;
-int id[MAX4];
+
+
+
+//int id[MAX4];
 //moi thay doi tg nay
 int Empty(TREE root){
 	return(root==NULL? true: false);
@@ -25,32 +28,94 @@ bool KT_MaCH_DSMH(listMH &lmh, string mamh)
 	}
 	return false;
 }
-void Khoitaoidngaunhien(STACKID &stkid)
+void Random_List_Id(IDNGAUNHIEN &idnn) 
 {
-	int n, b;
-	n=10000;
-	int *a = new int[n];// cap phat dong mot mang so nguyen chua n so 
-	stkid.listid = new int[n];// cap phat dong cho danh sach id
+	int vitri_random;
+	int start_random;
+	idnn.list_id_random = new int[COUNT_IDS];
+	idnn.count_list_id = COUNT_IDS;
 	srand(time(NULL));
-	for (int i = 1; i <= n; i++)
+	cout<<"\n ban dau :";
+	for (int i = 1; i <= COUNT_IDS; i++)
 	{
-		a[i] = i;
+		idnn.list_id_random[i] = i;
+		cout<<idnn.list_id_random[i]<<"\t";
 	}
-	// sinh tung so ngau nhien r bo vao trong stack id 
-	while (n>0)
+	cout<<"\n";
+	for(start_random = 1; start_random<COUNT_IDS;start_random++){
+		vitri_random = rand() % (COUNT_IDS - start_random + 1) + start_random;
+		int temp = idnn.list_id_random[start_random];
+		idnn.list_id_random[start_random] = idnn.list_id_random[vitri_random];
+		idnn.list_id_random[vitri_random] = temp;
+	}
+	for (int i = 1; i <= COUNT_IDS; i++)
 	{
-		b = 1 + rand()%n;
-		stkid.listid[++stkid.top]=a[b];
-		a[b] = a[n];
-		n--;
+		//list_id_random[i] = i;
+		cout<<idnn.list_id_random[i]<<"\t";
 	}
-	delete[] a;
+
+	// int *a = new int[MAX4];// cap phat dong mot mang so nguyen chua n so 
+	// stkid.listid = new int[n];// cap phat dong cho danh sach id
+	// srand(time(NULL));
+	// for (int i = 1; i <= n; i++)
+	// {
+	// 	a[i] = i;
+	// }
+	// // sinh tung so ngau nhien r bo vao trong stack id 
+	// while (n>0)
+	// {
+	// 	vitri_random = 1 + rand()%n;
+	// 	stkid.listid[++stkid.top]=a[vitri_random];
+	// 	a[vitri_random] = a[n];
+	// 	n--;
+	// }
+	// delete[] a;
 }
-void Nhap_Cau_Hoi(CAUHOI &ch, listMH &lmh)
+void Read_List_Id(IDNGAUNHIEN &idnn){
+	ifstream fi;
+	string str;
+	fi.open("idngaunhien.txt",ios::in);
+	fi>>idnn.count_list_id;
+	if(idnn.count_list_id>0){
+		getline(fi,str);
+		idnn.list_id_random = new int[idnn.count_list_id];
+		for(int i =0;i<idnn.count_list_id;i++){
+			fi>>idnn.list_id_random[i];
+			getline(fi,str);
+		}
+		cout<<"\n doc thanh cong";
+	}else{
+		Random_List_Id(idnn);
+	}
+	fi.close();
+}
+void Save_List_Id(IDNGAUNHIEN &idnn){
+	ofstream fo;
+	string str;
+
+	fo.open("idngaunhien.txt",ios::out);
+	fo<<idnn.count_list_id<<endl;
+	for(int i =0;i<idnn.count_list_id;i++){
+		fo<<idnn.list_id_random[i]<<endl;
+	}
+	fo.close();
+}
+void Xoa_Id_Dau_List(IDNGAUNHIEN &idnn){
+	int vitricanxoa =0;
+	for(int i = vitricanxoa; i < idnn.count_list_id; i++){
+        idnn.list_id_random[i-1] = idnn.list_id_random[i];
+    }
+	idnn.count_list_id--;
+}
+void Nhap_Cau_Hoi(CAUHOI &ch, listMH &lmh,IDNGAUNHIEN &idnn)
 {
 	gotoxy(x,++xd);	
 	fflush(stdin);
 	string temp;
+	//boc phan tu dau tien cua list id ran vao cau hoi va xoa di
+	ch.id = idnn.list_id_random[0];
+	Xoa_Id_Dau_List(idnn);
+	
 	do
 	{
 		temp.clear();
@@ -158,6 +223,7 @@ void Nhap_Cau_Hoi(CAUHOI &ch, listMH &lmh)
 			break;
 		}
 	}
+
 }
 void Xuat_Cau_Hoi(CAUHOI &ch)
 {
@@ -176,19 +242,22 @@ void Xuat_Cau_Hoi(CAUHOI &ch)
 }
 void Insert_Node(TREE &t, CAUHOI &ch)
 {
+	// sua ham nay sai
 	if(t==NULL)
 	{
-		NODE *p= new NODE;
+		t = new NODE;
 		t->data=ch;
 		t->pLEFT=NULL;
 		t->pRIGHT=NULL;
 	}
 	else
 	{
-	if(ch.id<t->data.id)
-	Insert_Node(t->pLEFT,ch);
-	else if(ch.id>t->data.id)
-	Insert_Node(t->pRIGHT,ch);
+		if(ch.id<t->data.id){
+			Insert_Node(t->pLEFT,ch);
+		}
+		else if(ch.id>t->data.id){
+			Insert_Node(t->pRIGHT,ch);
+		}
 	}
 }
 
@@ -205,7 +274,7 @@ void remove_case_3(TREE &r)
 	}
 }
 
-void Xoa_Cau_Hoi_Thi(TREE &p,int x)
+int Xoa_Cau_Hoi_Thi(TREE &p,int x)
 { 	TREE rp;
 	if(p==NULL)
 	{
@@ -216,12 +285,12 @@ void Xoa_Cau_Hoi_Thi(TREE &p,int x)
 	{
 		if(x<p->data.id)
 		{
-			Xoa_Cau_Hoi_Thi(x,p->pLEFT);
+			Xoa_Cau_Hoi_Thi(p->pLEFT,x);
 		}
 	
 		else if(x>p->data.id)
 		{
-			Xoa_Cau_Hoi_Thi(x,p->pRIGHT);
+			Xoa_Cau_Hoi_Thi(p->pRIGHT,x);
 		}
 		else
 		{
@@ -260,34 +329,34 @@ void Hieu_Chinh_Cau_Hoi_Ma(TREE &t,string mact,string mamoi)
 		}
 	}
 }
-NODE* TimKiem(TREE t, CAUHOI &ch)
+NODE* TimKiem(TREE &t, CAUHOI &ch)
 { 
-	// n?u cây r?ng
+	// n?u cï¿½y r?ng
 	if (t == NULL)
 	{
 		return NULL;
 	}
 	else
 	{
-		// n?u ph?n t? c?n tìm ki?m mà nh? hon node g?c thì duy?t(d? quy) sang bên trái d? tìm
+		// n?u ph?n t? c?n tï¿½m ki?m mï¿½ nh? hon node g?c thï¿½ duy?t(d? quy) sang bï¿½n trï¿½i d? tï¿½m
 		if (ch.id < t->data.id)
 		{
-			TimKiem(t->pLeft, ch);
+			TimKiem(t->pLEFT, ch);
 		}
-		else if (ch.id > t->data.id) // duy?t sang bên ph?i
+		else if (ch.id > t->data.id) // duy?t sang bï¿½n ph?i
 		{
-			TimKiem(t->pRight, ch);
+			TimKiem(t->pRIGHT, ch);
 		}
 		else // <=> t->data == x
 		{
-			return t; // tr? v? node c?n tìm ki?m
+			return t; // tr? v? node c?n tï¿½m ki?m
 		}
 	}
 
 }
 void Save_CauHoi(ofstream &fo, CAUHOI &ch)
 {
-	fo<<ch.id<<"."<<ch.id<<endl;
+	fo<<ch.id<<".";
 	fo<<ch.MAMH<<"."<<ch.noidung<<endl;
 	fo<<ch.A<<endl;
 	fo<<ch.B<<endl;
@@ -332,7 +401,7 @@ void Save_ListCauHoi(TREE &t)
 }
 void Duyet_cay_LNR(TREE &t)
 {
-	const STACKSIZE = 500;
+	const int STACKSIZE = 500;
 	TREE stack[STACKSIZE];
 	TREE p=t;
 	int sp=-1;//khoi tao stack rong
@@ -346,7 +415,8 @@ void Duyet_cay_LNR(TREE &t)
 		if(sp!=-1)
 		{
 			p=stack[sp--];
-			cout<<p->data<<" ";
+			//cout<<p->data<<" ";
+			Xuat_Cau_Hoi(p->data);
 			p=p->pRIGHT;
 		}
 		else break;
@@ -424,48 +494,52 @@ int DemSoHang(TREE &t)// dem so hang de luu vao file text, mot cau hoi se co 6 d
 		}while(p!=NULL);
 	return dem;
 }
-int DemSoHang(TREE &t)// dem so hang de luu vao file text, mot cau hoi se co 6 dong
-{
-	int dem=0;
-		int stacksize=100;
-		struct phantu
-		{
-			TREE diachi;
-			int kieu;// danh dau nut cha hay nut con ben phai
-		};
-		phantu Stack[stacksize];
-		int typ = 1;
-		int top = 0;
-		TREE p=t;
-		Stack[0].diachi=NULL;// khoi tao stack
-		do{
-			while(p!=NULL&&typ==1)
-			{
-				Stack[++top].diachi=p;
-				Stack[top].kieu=0;//nut cha
-				if(p->pRIGHT!=NULL)
-				{
-					Stack[++top].diachi=p->pRIGHT;
-					Stack[top].kieu=1;//nut con
-				}
-				p=p->pLEFT;
-			}
-			if(p!=NULL)
-			{
-				dem=dem+6;
-			}
-			p=Stack[top].diachi;
-			typ=Stack[top--].kieu;
-		}while(p!=NULL);
-	return dem;
-}
-void Read_CauHoi(ifstream &fi,CAUHOI &ch,STACKID &stk)
+
+
+// int DemSoHang(TREE &t)// dem so hang de luu vao file text, mot cau hoi se co 6 dong
+// {
+// 	int dem=0;
+// 		int stacksize=100;
+// 		struct phantu
+// 		{
+// 			TREE diachi;
+// 			int kieu;// danh dau nut cha hay nut con ben phai
+// 		};
+// 		phantu Stack[stacksize];
+// 		int typ = 1;
+// 		int top = 0;
+// 		TREE p=t;
+// 		Stack[0].diachi=NULL;// khoi tao stack
+// 		do{
+// 			while(p!=NULL&&typ==1)
+// 			{
+// 				Stack[++top].diachi=p;
+// 				Stack[top].kieu=0;//nut cha
+// 				if(p->pRIGHT!=NULL)
+// 				{
+// 					Stack[++top].diachi=p->pRIGHT;
+// 					Stack[top].kieu=1;//nut con
+// 				}
+// 				p=p->pLEFT;
+// 			}
+// 			if(p!=NULL)
+// 			{
+// 				dem=dem+6;
+// 			}
+// 			p=Stack[top].diachi;
+// 			typ=Stack[top--].kieu;
+// 		}while(p!=NULL);
+// 	return dem;
+// }
+void Read_CauHoi(ifstream &fi,CAUHOI &ch)
 {
 	// doc cau hoi tu file text, cac id se sinh ngau nhien tu danh sach id da tao 
-	ch.id=stk.listid[stk.top];
-	stk.top--;
+
 	fflush(stdin);
 	string str;
+	char id[5];
+	fi.getline(id,5,'.');
+	ch.id = atoi(id);
 	fi.getline(ch.MAMH,15,'.');
 	getline(fi,ch.noidung);
 	getline(fi,ch.A);
@@ -475,7 +549,7 @@ void Read_CauHoi(ifstream &fi,CAUHOI &ch,STACKID &stk)
 	fi>>ch.dapan;
 	getline(fi,str);
 }
-void Read_ListCauHoi(TREE &t,STACKID &stk)
+void Read_ListCauHoi(TREE &t)
 {
 	ifstream fi;
 	fi.open("danhsachcauhoithi.txt",ios::in);
@@ -487,55 +561,55 @@ void Read_ListCauHoi(TREE &t,STACKID &stk)
 	for(int i=0;i<soluong;i=i+6)
 	{
 		CAUHOI ch; 
-		Read_CauHoi(fi,ch,stk);
+		Read_CauHoi(fi,ch);
 		//ThemCauHoiThi(t,ch);
 	}
 	fi.close();
 }
-// lay cau hoi thi theo ma tu ngan hang danh sach cau hoi thi
-void Boc_Cau_Hoi_Thi_Theo_MA(TREE &t,char maMH[15],CAUHOIMA &chm)
-{
-	chm.count=0;
-	/*for(int i = 0;i<MAX3;i++)
-	{
-		chm.stkch[i] = new CAUHOI;
-	}*/
-	int stacksize=10000;
-	struct phantu
-	{
-		TREE diachi;
-		int kieu;// danh dau nut cha hay nut con ben phai
-	};
-	phantu Stack[stacksize];
-	int typ = 1;
-	int top = 0;
-	TREE p=t;
-	Stack[0].diachi=NULL;// khoi tao stack
-	do{
-		while(p!=NULL&&typ==1)
-		{
-			Stack[++top].diachi=p;
-			Stack[top].kieu=0;//nut cha
-			if(p->pRIGHT!=NULL)
-			{
-				Stack[++top].diachi=p->pRIGHT;
-				Stack[top].kieu=1;//nut con
-			}
-			p=p->pLEFT;
-		}
-		if(p!=NULL)
-		{
-			if(strcmp(maMH,p->data.MAMH)==0)// tim thay ma mon hoc thich hop
-			{
-				chm.stkch[chm.count] = new CAUHOI;// cap phat vung nho cho con tro thanh vien trong danh sach cau hoi thi
-				chm.stkch[chm.count] = &p->data;// gan cau hoi da tim dc sang con tro cau hoi theo ma
-				chm.count++; // tang so luong danh cau hoi theo ma len mot don vi
-			}
-		}
-		p=Stack[top].diachi;
-		typ=Stack[top--].kieu;
-	}while(p!=NULL);
-}
+//lay cau hoi thi theo ma tu ngan hang danh sach cau hoi thi
+//void Boc_Cau_Hoi_Thi_Theo_MA(TREE &t,char maMH[15],CAUHOIMA &chm)
+//{
+//	chm.count=0;
+//	/*for(int i = 0;i<MAX3;i++)
+//	{
+//		chm.stkch[i] = new CAUHOI;
+//	}*/
+//	int stacksize=10000;
+//	struct phantu
+//	{
+//		TREE diachi;
+//		int kieu;// danh dau nut cha hay nut con ben phai
+//	};
+//	phantu Stack[stacksize];
+//	int typ = 1;
+//	int top = 0;
+//	TREE p=t;
+//	Stack[0].diachi=NULL;// khoi tao stack
+//	do{
+//		while(p!=NULL&&typ==1)
+//		{
+//			Stack[++top].diachi=p;
+//			Stack[top].kieu=0;//nut cha
+//			if(p->pRIGHT!=NULL)
+//			{
+//				Stack[++top].diachi=p->pRIGHT;
+//				Stack[top].kieu=1;//nut con
+//			}
+//			p=p->pLEFT;
+//		}
+//		if(p!=NULL)
+//		{
+//			if(strcmp(maMH,p->data.MAMH)==0)// tim thay ma mon hoc thich hop
+//			{
+//				chm.stkch[chm.count] = new CAUHOI;// cap phat vung nho cho con tro thanh vien trong danh sach cau hoi thi
+//				chm.stkch[chm.count] = &p->data;// gan cau hoi da tim dc sang con tro cau hoi theo ma
+//				chm.count++; // tang so luong danh cau hoi theo ma len mot don vi
+//			}
+//		}
+//		p=Stack[top].diachi;
+//		typ=Stack[top--].kieu;
+//	}while(p!=NULL);
+//}
 //void Duyet_LRN_Khudequi(TREE &t)
 //{
 //	xd=2;
@@ -818,77 +892,78 @@ void Boc_Cau_Hoi_Thi_Theo_MA(TREE &t,char maMH[15],CAUHOIMA &chm)
 //		temp--;// giam di bien temp di 1 (vi da lay 1 phan tu trong danh sach cau hoi theo ma )
 //	}
 //}
-//void menuCAUHOI(TREE &t,listMH &lmh,STACKID &stk)
-//{
-//	CAUHOI ch;
-//	int Amount_Menu=5;
-//	int pointer2 = 0;
-//	char* menucauhoi[]={"1.Them cau hoi thi","2.Xoa cau hoi thi","3.Hieu chinh ma cho cau hoi thi","4.Xem cau hoi thi","5.Exit"};
-//	while(true)
-//	{
-//		system("cls");
-//		textcolor(10);
-//		VemenuTONG();
-//		gotoxy(20,26);
-//		cout<<"Quan Cau Hoi Thi";
-//		VeKhungCH(1,25,50,3,true);
-//		gotoxy(1,28);
-//		for(int i=0;i<Amount_Menu;i++)
-//		{
-//			if(pointer2==i)
-//			{
-//				textcolor(20);
-//				cout<<"\n\n"<<char(179)<<setw(4)<<right<<" "<<menucauhoi[i];
-//			}
-//			else
-//			{
-//				textcolor(10);
-//				cout<<"\n\n"<<char(179)<<setw(4)<<right<<" "<<menucauhoi[i];
-//			}
-//		}
-//		textcolor(10);
-//		while(true)	// xu li key board
-//		{
-//			if(kbhit())// neu co phim nao nhap vao 
-//			{
-//				char key =getch();// luu phim do lai de xu li 
-//				if(key == 72)// len
-//				{
-//					if(pointer2>0){
-//						--pointer2;
-//					}
-//					else{
-//						pointer2=Amount_Menu-1;
-//					}
-//					break;
-//				}
-//				if(key==80)//xuong
-//				{
-//					if(pointer2<Amount_Menu-1)
-//					{
-//						++pointer2;
-//					}
-//					else
-//					{
-//						pointer2 = 0;
-//					}
-//					break;
-//					}
-//				if(key==13)//enter
-//				{
-//					if(pointer2==0)
-//					{
-//						xd=2;
-//						if(t==NULL)
-//						{
+void menuCAUHOI(TREE &t,listMH &lmh,IDNGAUNHIEN &idngaunhien)
+{
+	CAUHOI ch;
+	int Amount_Menu=5;
+	int pointer2 = 0;
+	char* menucauhoi[]={"1.Them cau hoi thi","2.Xoa cau hoi thi","3.Hieu chinh ma cho cau hoi thi","4.Xem cau hoi thi","5.Exit"};
+	while(true)
+	{
+		system("cls");
+		textcolor(10);
+		VemenuTONG();
+		gotoxy(20,26);
+		cout<<"Quan Cau Hoi Thi";
+		VeKhungCH(1,25,50,3,true);
+		gotoxy(1,28);
+		for(int i=0;i<Amount_Menu;i++)
+		{
+			if(pointer2==i)
+			{
+				textcolor(20);
+				cout<<"\n\n"<<char(179)<<setw(4)<<right<<" "<<menucauhoi[i];
+			}
+			else
+			{
+				textcolor(10);
+				cout<<"\n\n"<<char(179)<<setw(4)<<right<<" "<<menucauhoi[i];
+			}
+		}
+		textcolor(10);
+		while(true)	// xu li key board
+		{
+			if(kbhit())// neu co phim nao nhap vao 
+			{
+				char key =getch();// luu phim do lai de xu li 
+				if(key == 72)// len
+				{
+					if(pointer2>0){
+						--pointer2;
+					}
+					else{
+						pointer2=Amount_Menu-1;
+					}
+					break;
+				}
+				if(key==80)//xuong
+				{
+					if(pointer2<Amount_Menu-1)
+					{
+						++pointer2;
+					}
+					else
+					{
+						pointer2 = 0;
+					}
+					break;
+					}
+				if(key==13)//enter
+				{
+					if(pointer2==0)
+					{
+						xd=2;
+						if(t==NULL)
+						{
 //							gotoxy(x,++xd);
-//							cout<<"Ban muon thuc hien thao tac nay chu ? No se tao moi lai danh sach trong danhsachcauhoithi.txt?(OK : ENTER, ESC : thoat)";
+////							cout<<"Ban muon thuc hien thao tac nay chu ? No se tao moi lai danh sach trong danhsachcauhoithi.txt?(OK : ENTER, ESC : thoat)";
 //							char key1 = getch();
 //							if(key1==13)
 //							{
 //								gotoxy(x,++xd);
-//								Nhap_Cau_Hoi(ch,stk,lmh);
+//								Nhap_Cau_Hoi(ch,lmh,idngaunhien);
 //								//ThemCauHoiThi(t,ch);
+//								Insert_Node(t,ch);
 //								Save_ListCauHoi(t);
 //								system("pause");
 //								break;
@@ -897,16 +972,24 @@ void Boc_Cau_Hoi_Thi_Theo_MA(TREE &t,char maMH[15],CAUHOIMA &chm)
 //							{
 //								break;
 //							}
-//						}
-//						gotoxy(x,++xd);
-//						Nhap_Cau_Hoi(ch,stk,lmh);
-//						//ThemCauHoiThi(t,ch);
-//						Save_ListCauHoi(t);
-//						system("pause");
-//						break;
-//					}
-//					else if(pointer2==1)
-//					{
+							gotoxy(x,++xd);
+								Nhap_Cau_Hoi(ch,lmh,idngaunhien);
+								//ThemCauHoiThi(t,ch);
+								Insert_Node(t,ch);
+								Save_ListCauHoi(t);
+								system("pause");
+								break;
+						}
+						gotoxy(x,++xd);
+						Nhap_Cau_Hoi(ch,lmh,idngaunhien);
+						//ThemCauHoiThi(t,ch);
+						Insert_Node(t,ch);
+						Save_ListCauHoi(t);
+						system("pause");
+						break;
+					}
+					else if(pointer2==1)
+					{
 //						if(t==NULL)
 //						{
 //							gotoxy(x,20);
@@ -976,10 +1059,10 @@ void Boc_Cau_Hoi_Thi_Theo_MA(TREE &t,char maMH[15],CAUHOIMA &chm)
 //							cout<<"KHONG TIM DC MON HOC !!!";
 //							break;
 //						}		
-//						
-//					}
-//					else if(pointer2==2)
-//					{
+						
+					}
+					else if(pointer2==2)
+					{
 //						if(t==NULL)
 //						{
 //							gotoxy(x,20);
@@ -1016,9 +1099,9 @@ void Boc_Cau_Hoi_Thi_Theo_MA(TREE &t,char maMH[15],CAUHOIMA &chm)
 //						{
 //							break;
 //						}
-//					}
-//					else if(pointer2==3)
-//					{
+					}
+					else if(pointer2==3)
+					{
 //						if(t==NULL)
 //						{
 //							gotoxy(x,20);
@@ -1069,14 +1152,14 @@ void Boc_Cau_Hoi_Thi_Theo_MA(TREE &t,char maMH[15],CAUHOIMA &chm)
 //							break;
 //						}		
 //						system("pasue");
-//					}
-//					else if(pointer2==4)
-//					{
-//						return;
-//					}
-//					break;
-//				}
-//			}
-//		}
-//	}
-//}
+					}
+					else if(pointer2==4)
+					{
+						return;
+					}
+					break;
+				}
+			}
+		}
+}
+}
