@@ -1,4 +1,5 @@
 #include "dscauhoi.h"
+// t moi thay doi ne, ban uong panadol chua 
 const int x = 60;
 const int y =22;
 int xd;
