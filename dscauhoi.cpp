@@ -1,5 +1,5 @@
 #include "dscauhoi.h"
-// t moi thay doi ne, ban uong panadol chua 
+// t moi thay doi ne, moi check out qua ne
 const int x = 60;
 const int y =22;
 int xd;
