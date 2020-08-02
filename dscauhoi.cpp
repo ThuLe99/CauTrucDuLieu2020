@@ -2,6 +2,7 @@
 const int x = 60;
 const int y =22;
 int xd;
+int id[MAX4];
 //moi thay doi tg nay
 int Empty(TREE root){
 	return(root==NULL? true: false);
@@ -11,29 +12,7 @@ void KhoiTaoCay(TREE &t)
 {
 	t=NULL;// cay rong
 }
-void themDuLieu(TREE &t, CAUHOI &ch)
-{
-	if(t==NULL)// cay rong
-	{
-		NODE *p= new NODE;// khoi tao node de them vao cay
-		p->data.id=ch.id;
-		p->pLEFT = NULL;
-		p->pRIGHT= NULL;
-		t=p;//node p chinh la node goc chinh la node x
-	}
-	else//cay co ptu
-	{
-		//neu ptu them vao nho hon ptu goc -> them vao ben trai
-		if(t->data.id > ch.id)
-		{
-			themDuLieu(t->pLEFT, ch);// duyet qua trai de them phan tu x
-		}
-		else if(t->data.id < ch.id)
-		{
-			themDuLieu(t->pRIGHT, ch);
-		}
-	}
-}
+
 bool KT_MaCH_DSMH(listMH &lmh, string mamh)
 {
 	for(int i = 0 ; i<lmh.soluong;i++)
@@ -45,7 +24,27 @@ bool KT_MaCH_DSMH(listMH &lmh, string mamh)
 	}
 	return false;
 }
-
+void Khoitaoidngaunhien(STACKID &stkid)
+{
+	int n, b;
+	n=10000;
+	int *a = new int[n];// cap phat dong mot mang so nguyen chua n so 
+	stkid.listid = new int[n];// cap phat dong cho danh sach id
+	srand(time(NULL));
+	for (int i = 1; i <= n; i++)
+	{
+		a[i] = i;
+	}
+	// sinh tung so ngau nhien r bo vao trong stack id 
+	while (n>0)
+	{
+		b = 1 + rand()%n;
+		stkid.listid[++stkid.top]=a[b];
+		a[b] = a[n];
+		n--;
+	}
+	delete[] a;
+}
 void Nhap_Cau_Hoi(CAUHOI &ch, listMH &lmh)
 {
 	gotoxy(x,++xd);	
@@ -158,7 +157,7 @@ void Nhap_Cau_Hoi(CAUHOI &ch, listMH &lmh)
 			break;
 		}
 	}
-
+}
 void Xuat_Cau_Hoi(CAUHOI &ch)
 {
 	gotoxy(x+32,++xd);
@@ -178,16 +177,18 @@ void Insert_Node(TREE &t, CAUHOI &ch)
 {
 	if(t==NULL)
 	{
-		t= new NODE;
+		NODE *p= new NODE;
 		t->data=ch;
 		t->pLEFT=NULL;
 		t->pRIGHT=NULL;
 	}
 	else
+	{
 	if(ch.id<t->data.id)
 	Insert_Node(t->pLEFT,ch);
 	else if(ch.id>t->data.id)
 	Insert_Node(t->pRIGHT,ch);
+	}
 }
 
 void remove_case_3(TREE &r)
@@ -240,6 +241,7 @@ void Xoa_Cau_Hoi_Thi(TREE &p,int x)
 		}
 	}
 }
+
 void Hieu_Chinh_Cau_Hoi_Ma(TREE &t,string mact,string mamoi)
 {
 	if(t==NULL)
@@ -257,43 +259,282 @@ void Hieu_Chinh_Cau_Hoi_Ma(TREE &t,string mact,string mamoi)
 		}
 	}
 }
-//bool Kiem_Tra_Mon_Do_Da_Co_Cau_Hoi_Chua(TREE &t,char mamh[15])
-//{
-//	int stacksize=100;
-//	struct phantu
-//	{
-//		TREE diachi;
-//		int kieu;// danh dau nut cha hay nut con ben phai
-//	};
-//	phantu Stack[stacksize];
-//	int typ = 1;
-//	int top = 0;
-//	TREE p=t;
-//	Stack[0].diachi=NULL;// khoi tao stack
-//	do{
-//		while(p!=NULL&&typ==1)
-//		{
-//			Stack[++top].diachi=p;
-//			Stack[top].kieu=0;//nut cha
-//			if(p->pRIGHT!=NULL)
-//			{
-//				Stack[++top].diachi=p->pRIGHT;
-//				Stack[top].kieu=1;//nut con
-//			}
-//			p=p->pLEFT;
-//		}
-//		if(p!=NULL)
-//		{
-//			if(strcmp(p->data.MAMH,mamh)==0)
-//			{
-//				return true;
-//			}
-//		}
-//		p=Stack[top].diachi;
-//		typ=Stack[top--].kieu;
-//	}while(p!=NULL);
-//	return false;
-//}
+NODE* TimKiem(TREE t, CAUHOI &ch)
+{ 
+	// n?u cây r?ng
+	if (t == NULL)
+	{
+		return NULL;
+	}
+	else
+	{
+		// n?u ph?n t? c?n tìm ki?m mà nh? hon node g?c thì duy?t(d? quy) sang bên trái d? tìm
+		if (ch.id < t->data.id)
+		{
+			TimKiem(t->pLeft, ch);
+		}
+		else if (ch.id > t->data.id) // duy?t sang bên ph?i
+		{
+			TimKiem(t->pRight, ch);
+		}
+		else // <=> t->data == x
+		{
+			return t; // tr? v? node c?n tìm ki?m
+		}
+	}
+
+}
+void Save_CauHoi(ofstream &fo, CAUHOI &ch)
+{
+	fo<<ch.id<<"."<<ch.id<<endl;
+	fo<<ch.MAMH<<"."<<ch.noidung<<endl;
+	fo<<ch.A<<endl;
+	fo<<ch.B<<endl;
+	fo<<ch.C<<endl;
+	fo<<ch.D<<endl;
+	fo<<ch.dapan<<endl;
+}
+void Save_ListCauHoi(TREE &t)
+{
+	ofstream fo;
+	fo.open("danhsachcauhoithi.txt",ios::out);
+	fo<<DemSoHang(t)<<endl;
+	int stacksize=100;
+	struct phantu
+	{
+		TREE diachi;
+		int kieu;// danh dau nut cha hay nut con ben phai
+	};
+	phantu Stack[stacksize];
+	int typ = 1;
+	int top = 0;
+	TREE p=t;
+	Stack[0].diachi=NULL;// khoi tao stack
+	do{
+		while(p!=NULL&&typ==1)
+		{
+			Stack[++top].diachi=p;
+			Stack[top].kieu=0;//nut cha
+			if(p->pRIGHT!=NULL)
+			{
+				Stack[++top].diachi=p->pRIGHT;
+				Stack[top].kieu=1;//nut con
+			}
+			p=p->pLEFT;
+		}
+		if(p!=NULL)
+			Save_CauHoi(fo,p->data);
+		p=Stack[top].diachi;
+		typ=Stack[top--].kieu;
+	}while(p!=NULL);
+	fo.close();
+}
+void Duyet_cay_LNR(TREE &t)
+{
+	const STACKSIZE = 500;
+	TREE stack[STACKSIZE];
+	TREE p=t;
+	int sp=-1;//khoi tao stack rong
+	do
+	{
+		while(p!=NULL)
+		{
+			stack[++sp]=p;
+			p=p->pLEFT;
+		}
+		if(sp!=-1)
+		{
+			p=stack[sp--];
+			cout<<p->data<<" ";
+			p=p->pRIGHT;
+		}
+		else break;
+	}while(1);
+}
+bool Kiem_Tra_Mon_Do_Da_Co_Cau_Hoi_Chua(TREE &t,char mamh[15])
+{
+	int stacksize=100;
+	struct phantu
+	{
+		TREE diachi;
+		int kieu;// danh dau nut cha hay nut con ben phai
+	};
+	phantu Stack[stacksize];
+	int typ = 1;
+	int top = 0;
+	TREE p=t;
+	Stack[0].diachi=NULL;// khoi tao stack
+	do{
+		while(p!=NULL&&typ==1)
+		{
+			Stack[++top].diachi=p;
+			Stack[top].kieu=0;//nut cha
+			if(p->pRIGHT!=NULL)
+			{
+				Stack[++top].diachi=p->pRIGHT;
+				Stack[top].kieu=1;//nut con
+			}
+			p=p->pLEFT;
+		}
+		if(p!=NULL)
+		{
+			if(strcmp(p->data.MAMH,mamh)==0)
+			{
+				return true;
+			}
+		}
+		p=Stack[top].diachi;
+		typ=Stack[top--].kieu;
+	}while(p!=NULL);
+	return false;
+}
+int DemSoHang(TREE &t)// dem so hang de luu vao file text, mot cau hoi se co 6 dong
+{
+	int dem=0;
+		int stacksize=100;
+		struct phantu
+		{
+			TREE diachi;
+			int kieu;// danh dau nut cha hay nut con ben phai
+		};
+		phantu Stack[stacksize];
+		int typ = 1;
+		int top = 0;
+		TREE p=t;
+		Stack[0].diachi=NULL;// khoi tao stack
+		do{
+			while(p!=NULL&&typ==1)
+			{
+				Stack[++top].diachi=p;
+				Stack[top].kieu=0;//nut cha
+				if(p->pRIGHT!=NULL)
+				{
+					Stack[++top].diachi=p->pRIGHT;
+					Stack[top].kieu=1;//nut con
+				}
+				p=p->pLEFT;
+			}
+			if(p!=NULL)
+			{
+				dem=dem+6;
+			}
+			p=Stack[top].diachi;
+			typ=Stack[top--].kieu;
+		}while(p!=NULL);
+	return dem;
+}
+int DemSoHang(TREE &t)// dem so hang de luu vao file text, mot cau hoi se co 6 dong
+{
+	int dem=0;
+		int stacksize=100;
+		struct phantu
+		{
+			TREE diachi;
+			int kieu;// danh dau nut cha hay nut con ben phai
+		};
+		phantu Stack[stacksize];
+		int typ = 1;
+		int top = 0;
+		TREE p=t;
+		Stack[0].diachi=NULL;// khoi tao stack
+		do{
+			while(p!=NULL&&typ==1)
+			{
+				Stack[++top].diachi=p;
+				Stack[top].kieu=0;//nut cha
+				if(p->pRIGHT!=NULL)
+				{
+					Stack[++top].diachi=p->pRIGHT;
+					Stack[top].kieu=1;//nut con
+				}
+				p=p->pLEFT;
+			}
+			if(p!=NULL)
+			{
+				dem=dem+6;
+			}
+			p=Stack[top].diachi;
+			typ=Stack[top--].kieu;
+		}while(p!=NULL);
+	return dem;
+}
+void Read_CauHoi(ifstream &fi,CAUHOI &ch,STACKID &stk)
+{
+	// doc cau hoi tu file text, cac id se sinh ngau nhien tu danh sach id da tao 
+	ch.id=stk.listid[stk.top];
+	stk.top--;
+	fflush(stdin);
+	string str;
+	fi.getline(ch.MAMH,15,'.');
+	getline(fi,ch.noidung);
+	getline(fi,ch.A);
+	getline(fi,ch.B);
+	getline(fi,ch.C);
+	getline(fi,ch.D);
+	fi>>ch.dapan;
+	getline(fi,str);
+}
+void Read_ListCauHoi(TREE &t,STACKID &stk)
+{
+	ifstream fi;
+	fi.open("danhsachcauhoithi.txt",ios::in);
+	KhoiTaoCay(t);
+	int soluong;
+	fi>>soluong;
+	string str;
+	getline(fi,str);
+	for(int i=0;i<soluong;i=i+6)
+	{
+		CAUHOI ch; 
+		Read_CauHoi(fi,ch,stk);
+		//ThemCauHoiThi(t,ch);
+	}
+	fi.close();
+}
+// lay cau hoi thi theo ma tu ngan hang danh sach cau hoi thi
+void Boc_Cau_Hoi_Thi_Theo_MA(TREE &t,char maMH[15],CAUHOIMA &chm)
+{
+	chm.count=0;
+	/*for(int i = 0;i<MAX3;i++)
+	{
+		chm.stkch[i] = new CAUHOI;
+	}*/
+	int stacksize=10000;
+	struct phantu
+	{
+		TREE diachi;
+		int kieu;// danh dau nut cha hay nut con ben phai
+	};
+	phantu Stack[stacksize];
+	int typ = 1;
+	int top = 0;
+	TREE p=t;
+	Stack[0].diachi=NULL;// khoi tao stack
+	do{
+		while(p!=NULL&&typ==1)
+		{
+			Stack[++top].diachi=p;
+			Stack[top].kieu=0;//nut cha
+			if(p->pRIGHT!=NULL)
+			{
+				Stack[++top].diachi=p->pRIGHT;
+				Stack[top].kieu=1;//nut con
+			}
+			p=p->pLEFT;
+		}
+		if(p!=NULL)
+		{
+			if(strcmp(maMH,p->data.MAMH)==0)// tim thay ma mon hoc thich hop
+			{
+				chm.stkch[chm.count] = new CAUHOI;// cap phat vung nho cho con tro thanh vien trong danh sach cau hoi thi
+				chm.stkch[chm.count] = &p->data;// gan cau hoi da tim dc sang con tro cau hoi theo ma
+				chm.count++; // tang so luong danh cau hoi theo ma len mot don vi
+			}
+		}
+		p=Stack[top].diachi;
+		typ=Stack[top--].kieu;
+	}while(p!=NULL);
+}
 //void Duyet_LRN_Khudequi(TREE &t)
 //{
 //	xd=2;
@@ -500,7 +741,7 @@ void Hieu_Chinh_Cau_Hoi_Ma(TREE &t,string mact,string mamoi)
 //	getline(fi,str);
 //	for(int i=0;i<soluong;i=i+6)
 //	{
-//		CAUHOI ch;
+//		CAUHOI ch; 
 //		Read_CauHoi(fi,ch,stk);
 //		//ThemCauHoiThi(t,ch);
 //	}

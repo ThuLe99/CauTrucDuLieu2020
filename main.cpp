@@ -726,10 +726,7 @@ void menuTONG(listMH &lmh,LISTLOP &dsl)
 					}
 					else if(pointer==3)
 					{
-						gotoxy(80,15);
-						cout<<"cau hoi";
-						system("pause");
-					//	menuCAUHOI(t,lmh,stk);
+						menuCAUHOI(t,lmh,stk);
 					}
 					else if(pointer==4)
 					{
