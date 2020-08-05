@@ -1,6 +1,4 @@
-5
-aeo,Eo
-bas101,Cau Truc Du Lieu
-int,Sdfc
+3
 int1,Vi Xu Ly
-wuhiu,Gyy
+int2,Cau Truc Du Lieu
+int3,An Toan Thong Tin

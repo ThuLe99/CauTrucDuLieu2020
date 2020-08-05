@@ -1,7 +1,31 @@
-6
-10.aeo.thien lan 4
-a
-b
-c
+30
+233.int1.iubhg
+233
+477
 d
+g
+C
+496.int1.hieu chinh
+1
+2
+3
+4
+C
+843.int3.843
+a
+s
+d
+f
+C
+834.int3.834
+s
+c
+c
+
+C
+461.int3.461
+a
+s
+d
+f
 A

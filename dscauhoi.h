@@ -5,7 +5,7 @@
 #include "DSlop.h"
 //moi thay doi tg nay lan thu 2 cho thu oc xem
 using namespace std;
-#define COUNT_IDS 10
+#define COUNT_IDS 1000
 /* run this program using the console pauser or add your own getch, system("pause") or input loop */
 
 struct cauhoithi
@@ -25,26 +25,25 @@ struct node
 	struct node *pLEFT;// node lien ket ben trai cua cay => c�y con trai
 	struct node *pRIGHT;// node lien ket ben phai cua cay => cay con phai 
 };typedef struct node NODE;
+typedef NODE* TREE;
 struct idngaunhien //danh sach id ngau nhien
 {
 	int *list_id_random;
 	int count_list_id;
 };typedef struct idngaunhien IDNGAUNHIEN;
-
-typedef NODE* TREE;
 int Empty(TREE root);
-void remove_case_3(TREE &t);
+void remove_case_3(TREE &t, TREE &rp);
 void KhoiTaoCay(TREE &t);
 NODE* TimKiem(TREE &t, CAUHOI &ch);
 bool KT_MaCH_DSMH(listMH &lmh, string mamh);
 void Nhap_Cau_Hoi(CAUHOI &ch, listMH &lmh,IDNGAUNHIEN &idnn);
 void Xuat_Cau_Hoi(CAUHOI &ch);
 void Insert_Node(TREE &t, CAUHOI &ch);
-int Xoa_Cau_Hoi_Thi(TREE &t,int x);
+int Xoa_Cau_Hoi_Thi(TREE &t,int ch);
 void Hieu_Chinh_Cau_Hoi_Ma(TREE &t,string mact,string mamoi);
 void Duyet_cay_LNR(TREE &t);
 int DemSoHang(TREE &t);
-//void ThemCauHoiThi(TREE &t,CAUHOI &ch);
+void ThemCauHoiThi(TREE &t,CAUHOI &ch);
 void Save_CauHoi(ofstream &fo, CAUHOI &ch);
 void Save_ListCauHoi(TREE &t);
 void Read_CauHoi(ifstream &fi,CAUHOI &ch);

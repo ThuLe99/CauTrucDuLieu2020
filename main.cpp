@@ -24,15 +24,15 @@ void insertarray(char* h, Hour* j);
 bool changetime(Hour* h);
 void WriteBlockChar(char* Arraych, int row, int col, int x, int y, int color);
 void printClock(Hour &h);
+bool Kiem_Tra_Pass_Sv(LISTLOP &dsl,string &ma, string &pass);
+void menuTONG(listMH &lmh,LISTLOP &dsl);
+void DangNhapGiaoVien_SinhVien(listMH &lmh,LISTLOP &dsl);
 //void Cap_Nhat_SV_Da_Thi(LISTLOP &dsl,LISTCHDT_SV &lchdt_sv);
 //float TINH_DIEM_CHO_GV(LISTCTL &lctl,CAUHOINGAUNHIEN &rdqt);
 //void ThiTracNghiemGV(listMH &lmh,TREE &t,CAUHOIMA &chm,CAUHOINGAUNHIEN &randomquestion,LISTCTL &lctl);
 //void GiaoDienThi(TREE &t,CAUHOIMA &chm,CAUHOINGAUNHIEN &randomquestion,LISTCTL &lctl);
 //float TINH_DIEM_CHO_SV(LISTCTL &lctl,CAUHOINGAUNHIEN &rdqt);
-bool Kiem_Tra_Pass_Sv(LISTLOP &dsl,string &ma, string &pass);
 //void Sinh_Vien_Thi_Trac_Nghiem(listMH &lmh,LISTLOP &dsl,TREE &t,LISTCHDT_SV &lchdt_sv,CAUHOIMA &chm,LISTCTL &lctl,CAUHOINGAUNHIEN &randomquestion,string &masv);
-void menuTONG(listMH &lmh,LISTLOP &dsl);
-void DangNhapGiaoVien_SinhVien(listMH &lmh,LISTLOP &dsl);
 //bool Sinh_Vien_Da_Thi(LISTCHDT_SV &lchdt_sv,string mssv ,char mamh[15]);
 
 char inToA(int k)
@@ -635,14 +635,11 @@ DWORD WINAPI ThreadProc(LPVOID param)
 //		return;
 //	}
 //}
-void menuTONG(listMH &lmh,LISTLOP &dsl,TREE &t )
+void menuTONG(listMH &lmh,LISTLOP &dsl,TREE &t ,IDNGAUNHIEN &idngaunhien)
 {
 	LOP l;
 	LISTSINHVIEN lsv;
 	//Read_CH_Thi_1_SV(lchdt_sv);
-	
-	IDNGAUNHIEN idngaunhien;
-	Read_List_Id(idngaunhien);
 	int soluong=8;
 	char *menutong[]={	"0.Quan Li Mon Hoc",
 						"1.Quan Li Lop ",
@@ -730,8 +727,6 @@ void menuTONG(listMH &lmh,LISTLOP &dsl,TREE &t )
 					else if(pointer==3)
 					{
 						menuCAUHOI(t,lmh,idngaunhien);
-						Save_List_Id(idngaunhien);
-						system("pause");
 					}
 					else if(pointer==4)
 					{
@@ -775,7 +770,8 @@ void menuTONG(listMH &lmh,LISTLOP &dsl,TREE &t )
 //				}
 //			}
 			Save_List_Lop_SV(dsl);
-//			Save_ListCauHoi(t);
+			Save_List_Id(idngaunhien);
+			Save_ListCauHoi(t);
 //			Cap_Nhat_SV_Da_Thi(dsl,lchdt_sv);
 //			Save_CH_Thi_1_SV(lchdt_sv);
 		}
@@ -785,11 +781,11 @@ void menuTONG(listMH &lmh,LISTLOP &dsl,TREE &t )
 //	{
 //		delete chm.stkch[i];
 //	}
-//	for(int i = 0 ;i<rdqt.vitri_chnn;i++)
+//	for(int i = 0 ;i<idngaunhien.count_list_id;i++)
 //	{
-//		delete rdqt.chnn[i];
+//		delete idngaunhien.list_id_random[i];
 //	}
-		
+//		
 }
 bool Kiem_Tra_Pass_Sv(LISTLOP &dsl,string &ma, string &pass)
 {
@@ -805,7 +801,7 @@ bool Kiem_Tra_Pass_Sv(LISTLOP &dsl,string &ma, string &pass)
 	}
 	return false;
 }
-void DangNhapGiaoVien_SinhVien(listMH &lmh,LISTLOP &dsl,TREE &t)
+void DangNhapGiaoVien_SinhVien(listMH &lmh,LISTLOP &dsl,TREE &t,IDNGAUNHIEN idngaunhien)
 {
 	while(true)
 	{
@@ -836,7 +832,7 @@ void DangNhapGiaoVien_SinhVien(listMH &lmh,LISTLOP &dsl,TREE &t)
 			XuLyNhap_Pass(pass);
 			if(ten==tendangnhap&&pass==password)
 			{
-				menuTONG(lmh,dsl,t);
+				menuTONG(lmh,dsl,t, idngaunhien);
 				system("pause");
 				break;
 			}
@@ -865,25 +861,21 @@ void DangNhapGiaoVien_SinhVien(listMH &lmh,LISTLOP &dsl,TREE &t)
 }
 int main(int argc, char** argv) {
 	listMH lmh;
-	//CAUHOIMA chm;
-//	LISTCTL lctl;
-	//CAUHOINGAUNHIEN rdqt;
+//	//CAUHOIMA chm;
+//	//LISTCTL lctl;
+//	//CAUHOINGAUNHIEN rdqt;
 	LISTLOP dsl;
 	TREE t;
-	//TREE t;
-	//STACKID stk;
-	//LISTCHDT_SV lchdt_sv;
-//	Khoitaoidngaunhien(stk);
-	KhoiTaoCay(t);
-	//Read_ListCauHoi(t,stk);
-	
+//	//LISTCHDT_SV lchdt_sv;
+	IDNGAUNHIEN idngaunhien;
+	KhoiTaoCay(t);	
 	Read_ListLop(dsl);
 	Read_ListLop_SV(dsl);
 	Read_listMH(lmh);
-	//Read_CH_Thi_1_SV(lchdt_sv);
-	DangNhapGiaoVien_SinhVien(lmh,dsl,t);
-	
-	
+	Read_List_Id(idngaunhien);
+	Read_ListCauHoi(t);	
+//	//Read_CH_Thi_1_SV(lchdt_sv);
+	DangNhapGiaoVien_SinhVien(lmh,dsl,t, idngaunhien);
 	for(int i=0;i<dsl.soluonglop;i++)
 	{
 		GiaiPhongSinhVien(*dsl.dslop[i]->lsv);
@@ -895,9 +887,4 @@ int main(int argc, char** argv) {
 	delete[] dsl.dslop;
 	return 0;
 }
-// int main(int argc, char** argv) {
 
-	
-// 	system("pause");
-// 	return 0;
-// }
