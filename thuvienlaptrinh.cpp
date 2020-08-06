@@ -337,6 +337,10 @@ void NhapSoKoChu(string &x)
 		}
 	}
 }
+int random(int minN, int maxN)
+{
+    return minN + rand() % (maxN + 1 - minN);
+}
 void XuLiNhapMa(string &x)
 {
 	while (true)

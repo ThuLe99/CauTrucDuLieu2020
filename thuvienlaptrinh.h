@@ -12,7 +12,9 @@
 #include <iomanip>
 #include <conio.h>
 #include <stdio.h>
+#include <time.h>
 using namespace std;
+int random(int minN, int maxN);
 void XuLiNhapNienKhoa(string &x);
 void resizeConsole(int width, int height);
 void textcolor(int x);

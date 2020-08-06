@@ -163,6 +163,7 @@ void Read_CH_Thi_1_SV(LISTCHDT_SV &lchdt_sv)
 		for(int j = 0;j<chdtsv.chiso;j++)
 		{
 			chdtsv.chdt[j] = new CAUHOI;
+			
 			fi.getline(chdtsv.chdt[j]->MAMH,15,'.');
 			getline(fi,chdtsv.chdt[j]->noidung);
 			getline(fi,chdtsv.chdt[j]->A);
