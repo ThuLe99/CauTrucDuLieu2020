@@ -35,7 +35,6 @@ void Random_List_Id(IDNGAUNHIEN &idnn)
 		idnn.list_id_random[i] = i;
 	}
 	for(start_random = 1; start_random<COUNT_IDS;start_random++){
-		//vitri_random = start_random + rand() % (COUNT_IDS - start_random + 1) ;
 		vitri_random = random(start_random,COUNT_IDS-1);
 		int temp = idnn.list_id_random[vitri_random];
 		idnn.list_id_random[vitri_random] = idnn.list_id_random[start_random-1];
@@ -70,7 +69,25 @@ void Save_List_Id(IDNGAUNHIEN &idnn){
 	}
 	fo.close();
 }
-
+//void Xoa_Id_Dau_List(IDNGAUNHIEN &idnn){
+//	
+//	for(int i = 1; i < idnn.count_list_id; i++){
+//        idnn.list_id_random[i-1] = idnn.list_id_random[i];
+//    }
+//	idnn.count_list_id--;
+//	int *temp=new int[idnn.count_list_id];
+//	for(int i=0;i<idnn.count_list_id;i++)
+//	{
+//		temp[i]=idnn.list_id_random[i];
+//	}
+//	delete[] idnn.list_id_random;
+//	idnn.list_id_random=new int[idnn.count_list_id];
+//	for(int i=0;i<idnn.count_list_id;i++)
+//	{
+//		idnn.list_id_random[i]=temp[i];
+//	}
+//	delete[] temp;
+//}
 void Xoa_Id_Dau_List(IDNGAUNHIEN &idnn){
 	int vitricanxoa =0;
 	for(int i = vitricanxoa; i < idnn.count_list_id; i++){
@@ -509,49 +526,49 @@ void ThemCauHoiThi(TREE &t,CAUHOI &ch)
 	Insert_Node(t,ch);
 }
 //lay cau hoi thi theo ma tu ngan hang danh sach cau hoi thi
-//void Boc_Cau_Hoi_Thi_Theo_MA(TREE &t,char maMH[15],CAUHOIMA &chm)
-//{
-//	chm.count=0;
-//	/*for(int i = 0;i<MAX3;i++)
-//	{
-//		chm.stkch[i] = new CAUHOI;
-//	}*/
-//	int stacksize=10000;
-//	struct phantu
-//	{
-//		TREE diachi;
-//		int kieu;// danh dau nut cha hay nut con ben phai
-//	};
-//	phantu Stack[stacksize];
-//	int typ = 1;
-//	int top = 0;
-//	TREE p=t;
-//	Stack[0].diachi=NULL;// khoi tao stack
-//	do{
-//		while(p!=NULL&&typ==1)
-//		{
-//			Stack[++top].diachi=p;
-//			Stack[top].kieu=0;//nut cha
-//			if(p->pRIGHT!=NULL)
-//			{
-//				Stack[++top].diachi=p->pRIGHT;
-//				Stack[top].kieu=1;//nut con
-//			}
-//			p=p->pLEFT;
-//		}
-//		if(p!=NULL)
-//		{
-//			if(strcmp(maMH,p->data.MAMH)==0)// tim thay ma mon hoc thich hop
-//			{
-//				chm.stkch[chm.count] = new CAUHOI;// cap phat vung nho cho con tro thanh vien trong danh sach cau hoi thi
-//				chm.stkch[chm.count] = &p->data;// gan cau hoi da tim dc sang con tro cau hoi theo ma
-//				chm.count++; // tang so luong danh cau hoi theo ma len mot don vi
-//			}
-//		}
-//		p=Stack[top].diachi;
-//		typ=Stack[top--].kieu;
-//	}while(p!=NULL);
-//}
+void Boc_Cau_Hoi_Thi_Theo_MA(TREE &t,char maMH[15],CAUHOIMA &chm)
+{
+	chm.count=0;
+	/*for(int i = 0;i<MAX3;i++)
+	{
+		chm.stkch[i] = new CAUHOI;
+	}*/
+	int stacksize=10000;
+	struct phantu
+	{
+		TREE diachi;
+		int kieu;// danh dau nut cha hay nut con ben phai
+	};
+	phantu Stack[stacksize];
+	int typ = 1;
+	int top = 0;
+	TREE p=t;
+	Stack[0].diachi=NULL;// khoi tao stack
+	do{
+		while(p!=NULL&&typ==1)
+		{
+			Stack[++top].diachi=p;
+			Stack[top].kieu=0;//nut cha
+			if(p->pRIGHT!=NULL)
+			{
+				Stack[++top].diachi=p->pRIGHT;
+				Stack[top].kieu=1;//nut con
+			}
+			p=p->pLEFT;
+		}
+		if(p!=NULL)
+		{
+			if(strcmp(maMH,p->data.MAMH)==0)// tim thay ma mon hoc thich hop
+			{
+				chm.stkch[chm.count] = new CAUHOI;// cap phat vung nho cho con tro thanh vien trong danh sach cau hoi thi
+				chm.stkch[chm.count] = &p->data;// gan cau hoi da tim dc sang con tro cau hoi theo ma
+				chm.count++; // tang so luong danh cau hoi theo ma len mot don vi
+			}
+		}
+		p=Stack[top].diachi;
+		typ=Stack[top--].kieu;
+	}while(p!=NULL);
+}
 
 void Xuat_Cau_Hoi_Theo_Ma(TREE &t,char mamh[15])
 {
@@ -603,32 +620,32 @@ void Xuat_Cau_Hoi_Theo_Ma(TREE &t,char mamh[15])
 	system("pause");
 }
 
-//void Boc_Cau_Hoi_Thi_Ngau_Nhien(TREE &t,CAUHOIMA &chm,CAUHOINGAUNHIEN &randomquestion)
-//{
-//	int b;
-//	srand(time(NULL));
-//	// cap phat vung nho cho danh sach cau hoi ngau nhien theo so luong cau hoi thi ma nguoi dung nhap vao ( mang con tro)
-//	for(int i=0;i<randomquestion.socauhoithi;i++)
-//	{
-//		randomquestion.chnn[i] = new CAUHOI;
-//	}
-//	randomquestion.vitri_chnn=0;// khoi tao chi so cua cau hoi ngau nhien bang 0
-//	int temp = chm.count-1;//cho bien temp bang voi so luong cau hoi theo ma tru di 1
-//	int tempsocauhoithi= randomquestion.socauhoithi;// cho mot bien tempso cau hoi thi = so luong cau hoi thi nguoi dung nhap vao
-//	// tien hanh boc cau hoi ngau nhien tu danh sach cau hoi theo ma
-//	while(tempsocauhoithi>0)
-//	{
-//		b =rand()%(temp+0);// cho mot bien b random tu so 0 den temp ( temp o day chinh la so luong cau hoi theo ma)
-//		// b o day chinh la vi tri ngau nhien trong danh sach cau hoi theo ma
-//		randomquestion.chnn[randomquestion.vitri_chnn] = chm.stkch[b];
-//		// lan luot cho tung phan tu cua danh sach cau hoi ngau nhien bang voi phan tu co vi tri ngau nhien b trong dnah sach cau hoi theo ma 
-//		chm.stkch[b] = chm.stkch[temp];
-//		// dem phan tu o vi tri cuoi cung trong danh sach cau hoi theo ma chen len phan tu thu b trong danh sach cau hoi theo ma
-//		randomquestion.vitri_chnn++;// tang chi so cau hoi ngau nhien len 1 don vi
-//		tempsocauhoithi--;// giam di bien tam so cau hoi thi di 1
-//		temp--;// giam di bien temp di 1 (vi da lay 1 phan tu trong danh sach cau hoi theo ma )
-//	}
-//}
+void Boc_Cau_Hoi_Thi_Ngau_Nhien(TREE &t,CAUHOIMA &chm,CAUHOINGAUNHIEN &randomquestion)
+{
+	int b;
+	srand(time(NULL));
+	// cap phat vung nho cho danh sach cau hoi ngau nhien theo so luong cau hoi thi ma nguoi dung nhap vao ( mang con tro)
+	for(int i=0;i<randomquestion.socauhoithi;i++)
+	{
+		randomquestion.chnn[i] = new CAUHOI;
+	}
+	randomquestion.vitri_chnn=0;// khoi tao chi so cua cau hoi ngau nhien bang 0
+	int temp = chm.count-1;//cho bien temp bang voi so luong cau hoi theo ma tru di 1
+	int tempsocauhoithi= randomquestion.socauhoithi;// cho mot bien tempso cau hoi thi = so luong cau hoi thi nguoi dung nhap vao
+	// tien hanh boc cau hoi ngau nhien tu danh sach cau hoi theo ma
+	while(tempsocauhoithi>0)
+	{
+		b =rand()%(temp+0);// cho mot bien b random tu so 0 den temp ( temp o day chinh la so luong cau hoi theo ma)
+		// b o day chinh la vi tri ngau nhien trong danh sach cau hoi theo ma
+		randomquestion.chnn[randomquestion.vitri_chnn] = chm.stkch[b];
+		// lan luot cho tung phan tu cua danh sach cau hoi ngau nhien bang voi phan tu co vi tri ngau nhien b trong dnah sach cau hoi theo ma 
+		chm.stkch[b] = chm.stkch[temp];
+		// dem phan tu o vi tri cuoi cung trong danh sach cau hoi theo ma chen len phan tu thu b trong danh sach cau hoi theo ma
+		randomquestion.vitri_chnn++;// tang chi so cau hoi ngau nhien len 1 don vi
+		tempsocauhoithi--;// giam di bien tam so cau hoi thi di 1
+		temp--;// giam di bien temp di 1 (vi da lay 1 phan tu trong danh sach cau hoi theo ma )
+	}
+}
 void menuCAUHOI(TREE &t,listMH &lmh,IDNGAUNHIEN &idngaunhien)
 {
 		CAUHOI ch;

@@ -22,15 +22,41 @@ struct cauhoithi
 struct node
 {
 	CAUHOI data; // du lieu cua cai node ==>du lieu node luu tru 
-	struct node *pLEFT;// node lien ket ben trai cua cay => c�y con trai
+	struct node *pLEFT;// node lien ket ben trai cua cay => c?y con trai
 	struct node *pRIGHT;// node lien ket ben phai cua cay => cay con phai 
 };typedef struct node NODE;
 typedef NODE* TREE;
+
 struct idngaunhien //danh sach id ngau nhien
 {
 	int *list_id_random;
 	int count_list_id;
 };typedef struct idngaunhien IDNGAUNHIEN;
+
+struct cauhoithitheoma // danh sach cau hoi thi theo ma dc boc tu danh sach cau hoi thi
+{
+	int count;
+	CAUHOI *stkch[MAX3];
+};typedef struct cauhoithitheoma CAUHOIMA;
+
+struct cauhoingaunhien// danh sach cau hoi ngau nhien duoc boc tu danh sach cau hoi thi theo ma
+{
+	int socauhoithi;// so cau hoi se thi ma nguoi dung nhap vao
+	int vitri_chnn ;// bien vi tri cau hoi thi trong danh sach
+	CAUHOI *chnn[MAX3];
+};typedef struct cauhoingaunhien CAUHOINGAUNHIEN;
+
+struct cautraloi// cau tra loi cua sinh vien
+{
+	char answer;		
+};typedef struct cautraloi CAUTRALOI;
+
+struct listctl// danh sach cau tra loi cua sinh vien 
+{
+	int vitri_ctl;
+	CAUTRALOI *ctd;
+};typedef struct listctl LISTCTL;
+
 int Empty(TREE root);
 void remove_case_3(TREE &t, TREE &rp);
 void KhoiTaoCay(TREE &t);
@@ -48,9 +74,9 @@ void Save_CauHoi(ofstream &fo, CAUHOI &ch);
 void Save_ListCauHoi(TREE &t);
 void Read_CauHoi(ifstream &fi,CAUHOI &ch);
 void Read_ListCauHoi(TREE &t);
-//void Xuat_Cau_Hoi_Theo_Ma(TREE &t,char mamh[15]);
-//void Boc_Cau_Hoi_Thi_Theo_MA(TREE &t,char maMH[15],CAUHOIMA &chm);
-//void Boc_Cau_Hoi_Thi_Ngau_Nhien(TREE &t,CAUHOIMA &chm,CAUHOINGAUNHIEN &randomquestion);
+void Xuat_Cau_Hoi_Theo_Ma(TREE &t,char mamh[15]);
+void Boc_Cau_Hoi_Thi_Theo_MA(TREE &t,char maMH[15],CAUHOIMA &chm);
+void Boc_Cau_Hoi_Thi_Ngau_Nhien(TREE &t,CAUHOIMA &chm,CAUHOINGAUNHIEN &randomquestion);
 void menuCAUHOI(TREE &t,listMH &lmh,IDNGAUNHIEN &idngaunhien);
 bool Kiem_Tra_Mon_Do_Da_Co_Cau_Hoi_Chua(TREE &t,char mamh[15]);
 void Random_List_Id(IDNGAUNHIEN &idnn);
@@ -59,4 +85,5 @@ void Save_List_Id(IDNGAUNHIEN &idnn);
 void Xoa_Id_Dau_List(IDNGAUNHIEN &idnn);
 
 #endif
+
 

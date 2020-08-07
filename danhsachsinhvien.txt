@@ -1,2 +1,21 @@
+3
+
+D17CQCN03|Cong Nghe Thong Tin 3|2017-2022
+2
+N17dccn176|Le Thi Anh Thu|NU|123
+3
+int3|0
+int2|0
+int1|0
+N17dccn172|Tran Duc Thien|NU|345
+3
+int3|0
+int2|0
+int1|0
+
+D18CQMR18|Marketing 1|2018-2023
+0
+
+D19CQAT01|An Toan Thong Tin 1|2019-2024
 0
 

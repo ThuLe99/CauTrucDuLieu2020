@@ -23,7 +23,8 @@ struct list_cauhoidathi_sv
 	NODECHDT *pheadCH;
 	NODECHDT *ptailCH;
 };typedef struct list_cauhoidathi_sv LISTCHDT_SV;// danh sach sinh vien da thi
-//void Nap_CH_Sau_Khi_Thi(LISTCHDT_SV &lchdt_sv,CAUHOINGAUNHIEN &rdqt,LISTLOP &dsl,string &massv);
+
+void Nap_CH_Sau_Khi_Thi(LISTCHDT_SV &lchdt_sv,CAUHOINGAUNHIEN &rdqt,LISTLOP &dsl,string &massv);
 NODECHDT *KhoiTaoNode_CHDT(CH_DATHI_SV &x);
 void Khoi_Tao_List_CHDT(LISTCHDT_SV &lchdt_sv);
 void Them_CHDT_Vao_Cuoi(LISTCHDT_SV &lchdt_sv, NODECHDT *pch);

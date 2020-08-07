@@ -56,56 +56,56 @@ bool Kiem_Tra_Mon(LISTCHDT_SV &lchdt_sv,string &massv,char mamon[15])
 	return false;
 }
 // sau khi thi cac cau hoi se dc luu vao trong danh sach cac cau hoi da thi
-//void Nap_CH_Sau_Khi_Thi(LISTCHDT_SV &lchdt_sv,CAUHOINGAUNHIEN &rdqt,LISTLOP &dsl,string &massv)
-//{
-//	// truong hop 1: sinh vien do da co ten trong danh sach va thi tiep mot mon moi
-//	// tiep tuc luu cac cau hoi moi sau cac cau hoi cu
-//	if(Kiem_Tra_SV_Da_Thi_Chua(lchdt_sv,massv)==true)// kiem tra sinh vien do da thi lan dau hay da thi r
-//	{
-//		for(NODECHDT *p=lchdt_sv.pheadCH;p!=NULL;p=p->nNEXT)// duyet danh sach sinh vien da thi
-//		{
-//			if(stricmp(p->chdtsv.mssv.c_str(),massv.c_str())==0)// neu co ten sinh vien da thi
-//			{
-//				// tiep tuc luu cac cau moi phia sau cac cau hoi cu
-//				for(int i =0;i<rdqt.socauhoithi;i++)
-//				{
-//					p->chdtsv.chdt[p->chdtsv.chiso] = new CAUHOI;
-//					p->chdtsv.chdt[p->chdtsv.chiso] = rdqt.chnn[i];
-//					p->chdtsv.chiso++;
-//				}
-//				break;
-//			}
-//		}
-//	}
-//	// truong hop 2 : sinh vien do thi lan dau tien 
-//	else if(Kiem_Tra_SV_Da_Thi_Chua(lchdt_sv,massv)==false)// neu sinh vien do thi lan dau
-//	{
-//		CH_DATHI_SV chdtsv;
-//		chdtsv.chiso=0;// cho chi so chdt cua sinh vien = 0
-//		chdtsv.mssv = massv;
-//		for(int i =0;i<rdqt.socauhoithi;i++)// rang cau hoi thi vao danh sach cau da thi cua 1 sinh vien
-//		{
-//			chdtsv.chdt[chdtsv.chiso] = new CAUHOI;
-//			chdtsv.chdt[chdtsv.chiso] = rdqt.chnn[i];
-//			chdtsv.chiso++;
-//		}
-//		// rang ho va ten nguoi thi  vao danh sach sinh vien da thi
-//		for(int i = 0;i<dsl.soluonglop;i++)
-//		{
-//			for(NODESV *k=dsl.dslop[i]->lsv->pHEAD;k!=NULL;k=k->pNEXT)
-//			{
-//				if(stricmp(massv.c_str(),k->datasv.masv.c_str())==0)
-//				{
-//					chdtsv.hosv=k->datasv.ho;
-//					chdtsv.tensv=k->datasv.ten;
-//					break;
-//				}
-//			}
-//		}
-//		NODECHDT *pch = KhoiTaoNode_CHDT(chdtsv);// khoi tao node chdt
-//		Them_CHDT_Vao_Cuoi(lchdt_sv,pch);// them vao cuoi danh sach sinh vien da thi
-//	}
-//}
+void Nap_CH_Sau_Khi_Thi(LISTCHDT_SV &lchdt_sv,CAUHOINGAUNHIEN &rdqt,LISTLOP &dsl,string &massv)
+{
+	// truong hop 1: sinh vien do da co ten trong danh sach va thi tiep mot mon moi
+	// tiep tuc luu cac cau hoi moi sau cac cau hoi cu
+	if(Kiem_Tra_SV_Da_Thi_Chua(lchdt_sv,massv)==true)// kiem tra sinh vien do da thi lan dau hay da thi r
+	{
+		for(NODECHDT *p=lchdt_sv.pheadCH;p!=NULL;p=p->nNEXT)// duyet danh sach sinh vien da thi
+		{
+			if(stricmp(p->chdtsv.mssv.c_str(),massv.c_str())==0)// neu co ten sinh vien da thi
+			{
+				// tiep tuc luu cac cau moi phia sau cac cau hoi cu
+				for(int i =0;i<rdqt.socauhoithi;i++)
+				{
+					p->chdtsv.chdt[p->chdtsv.chiso] = new CAUHOI;
+					p->chdtsv.chdt[p->chdtsv.chiso] = rdqt.chnn[i];
+					p->chdtsv.chiso++;
+				}
+				break;
+			}
+		}
+	}
+	// truong hop 2 : sinh vien do thi lan dau tien 
+	else if(Kiem_Tra_SV_Da_Thi_Chua(lchdt_sv,massv)==false)// neu sinh vien do thi lan dau
+	{
+		CH_DATHI_SV chdtsv;
+		chdtsv.chiso=0;// cho chi so chdt cua sinh vien = 0
+		chdtsv.mssv = massv;
+		for(int i =0;i<rdqt.socauhoithi;i++)// rang cau hoi thi vao danh sach cau da thi cua 1 sinh vien
+		{
+			chdtsv.chdt[chdtsv.chiso] = new CAUHOI;
+			chdtsv.chdt[chdtsv.chiso] = rdqt.chnn[i];
+			chdtsv.chiso++;
+		}
+		// rang ho va ten nguoi thi  vao danh sach sinh vien da thi
+		for(int i = 0;i<dsl.soluonglop;i++)
+		{
+			for(NODESV *k=dsl.dslop[i]->lsv->pHEAD;k!=NULL;k=k->pNEXT)
+			{
+				if(stricmp(massv.c_str(),k->datasv.masv.c_str())==0)
+				{
+					chdtsv.hosv=k->datasv.ho;
+					chdtsv.tensv=k->datasv.ten;
+					break;
+				}
+			}
+		}
+		NODECHDT *pch = KhoiTaoNode_CHDT(chdtsv);// khoi tao node chdt
+		Them_CHDT_Vao_Cuoi(lchdt_sv,pch);// them vao cuoi danh sach sinh vien da thi
+	}
+}
 int Dem_SoLuong_SV_Da_Thi(LISTCHDT_SV &lchdt_sv)
 {
 	int dem = 0;
@@ -129,6 +129,7 @@ void Save_CH_Thi_1_SV(LISTCHDT_SV &lchdt_sv)
 		// danh sach cau hoi da thi
 		for(int i =0;i<k->chdtsv.chiso;i++)
 		{
+			fo<<k->chdtsv.chdt[i]->id<<".";
 			fo<<k->chdtsv.chdt[i]->MAMH<<".";
 			fo<<k->chdtsv.chdt[i]->noidung<<endl;
 			fo<<k->chdtsv.chdt[i]->A<<endl;
@@ -163,7 +164,10 @@ void Read_CH_Thi_1_SV(LISTCHDT_SV &lchdt_sv)
 		for(int j = 0;j<chdtsv.chiso;j++)
 		{
 			chdtsv.chdt[j] = new CAUHOI;
-			
+			fflush(stdin);
+			char id[5];
+			fi.getline(id,5,'.');
+			chdtsv.chdt[j]->id = atoi(id);
 			fi.getline(chdtsv.chdt[j]->MAMH,15,'.');
 			getline(fi,chdtsv.chdt[j]->noidung);
 			getline(fi,chdtsv.chdt[j]->A);
