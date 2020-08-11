@@ -739,21 +739,17 @@ void menuTONG(listMH &lmh,LISTLOP &dsl,TREE &t ,IDNGAUNHIEN &idngaunhien,LISTCHD
 					}
 					else if(pointer==5)
 					{
-						gotoxy(80,15);
-						cout<<"xem cau hoi thi cua sinh vien";
+						
+						Xem_CH_Thi_1_SV(lchdt_sv,lmh);
 						system("pause");
-//						Xem_CH_Thi_1_SV(lchdt_sv,lmh);
-//						system("pause");
-//						break;
+						break;
 					}
 					else if(pointer==6)
 					{
-						gotoxy(80,15);
-						cout<<"xem bang diem cua moj lop";
+					
+						Xuat_ListLop(dsl);
+						Xem_Diem_Cua_1_Lop(lmh,lchdt_sv,dsl);
 						system("pause");
-//						Xuat_ListLop(dsl);
-//						Xem_Diem_Cua_1_Lop(lmh,lchdt_sv,dsl);
-//						system("pause");
 					}
 					else if(pointer==7)
 					{
